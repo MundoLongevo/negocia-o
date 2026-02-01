@@ -1,0 +1,1475 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NegociaMaster - Simulador de Negociação</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a2a6c, #2a3f8f);
+            color: #333;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(90deg, #0c2461, #1e3799);
+            color: white;
+            padding: 25px;
+            text-align: center;
+            border-bottom: 5px solid #f6b93b;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+        
+        .logo i {
+            font-size: 2.5rem;
+            color: #f6b93b;
+        }
+        
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 5px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 15px;
+        }
+        
+        .professor-info {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 10px;
+            border-radius: 10px;
+            display: inline-block;
+            margin-top: 10px;
+            font-size: 0.9rem;
+        }
+        
+        .game-area {
+            display: flex;
+            min-height: 600px;
+        }
+        
+        .sidebar {
+            width: 300px;
+            background-color: #f8f9fa;
+            padding: 25px;
+            border-right: 3px solid #e9ecef;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .score-board {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        
+        .score-title {
+            font-size: 1.5rem;
+            color: #0c2461;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+        
+        .score-value {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: #1e3799;
+            margin-bottom: 5px;
+        }
+        
+        .score-max {
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 20px;
+        }
+        
+        .medals-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .medal {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            background-color: #e9ecef;
+            color: #adb5bd;
+            transition: all 0.3s;
+        }
+        
+        .medal.active {
+            background-color: #ffd700;
+            color: #b8860b;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+        }
+        
+        .medal.silver.active {
+            background-color: #c0c0c0;
+            color: #808080;
+            box-shadow: 0 0 15px rgba(192, 192, 192, 0.5);
+        }
+        
+        .medal.bronze.active {
+            background-color: #cd7f32;
+            color: #8b4513;
+            box-shadow: 0 0 15px rgba(205, 127, 50, 0.5);
+        }
+        
+        .progress-container {
+            margin-top: 20px;
+        }
+        
+        .progress-bar {
+            height: 10px;
+            background-color: #e9ecef;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4CAF50, #8BC34A);
+            width: 0%;
+            transition: width 0.5s;
+        }
+        
+        .progress-text {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .cases-list {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+        
+        .case-item {
+            padding: 12px 15px;
+            margin-bottom: 10px;
+            background-color: white;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border-left: 5px solid #1e3799;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        .case-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .case-item.active {
+            background-color: #e3f2fd;
+            border-left-color: #4CAF50;
+            font-weight: 600;
+        }
+        
+        .case-item.completed {
+            border-left-color: #4CAF50;
+        }
+        
+        .case-item.completed .case-title::after {
+            content: " ✓";
+            color: #4CAF50;
+            font-weight: bold;
+        }
+        
+        .case-number {
+            font-size: 0.8rem;
+            color: #666;
+            margin-bottom: 3px;
+        }
+        
+        .case-title {
+            font-size: 1rem;
+            color: #333;
+        }
+        
+        .main-content {
+            flex-grow: 1;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .case-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e9ecef;
+        }
+        
+        .case-id {
+            font-size: 1.1rem;
+            color: #666;
+            background-color: #f1f3f5;
+            padding: 5px 15px;
+            border-radius: 20px;
+        }
+        
+        .case-difficulty {
+            font-size: 1rem;
+            color: #666;
+            font-weight: 600;
+        }
+        
+        .case-scenario {
+            background-color: #f8f9fa;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            line-height: 1.6;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            border-left: 5px solid #1e3799;
+        }
+        
+        .case-scenario h3 {
+            color: #1e3799;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+        
+        .case-question {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 30px;
+            padding: 15px;
+            background-color: #e3f2fd;
+            border-radius: 10px;
+        }
+        
+        .options-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .option {
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 2px solid #e9ecef;
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+        
+        .option:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .option.selected {
+            border-color: #2196F3;
+            background-color: #e3f2fd;
+        }
+        
+        .option.correct {
+            border-color: #4CAF50;
+            background-color: #e8f5e9;
+        }
+        
+        .option.incorrect {
+            border-color: #f44336;
+            background-color: #ffebee;
+        }
+        
+        .option-indicator {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            background-color: #e9ecef;
+            color: #666;
+            flex-shrink: 0;
+        }
+        
+        .option.selected .option-indicator {
+            background-color: #2196F3;
+            color: white;
+        }
+        
+        .option.correct .option-indicator {
+            background-color: #4CAF50;
+            color: white;
+        }
+        
+        .option.incorrect .option-indicator {
+            background-color: #f44336;
+            color: white;
+        }
+        
+        .option-text {
+            flex-grow: 1;
+            font-size: 1.05rem;
+            line-height: 1.5;
+        }
+        
+        .feedback {
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 20px;
+            display: none;
+        }
+        
+        .feedback.correct {
+            background-color: #e8f5e9;
+            border-left: 5px solid #4CAF50;
+            display: block;
+        }
+        
+        .feedback.incorrect {
+            background-color: #ffebee;
+            border-left: 5px solid #f44336;
+            display: block;
+        }
+        
+        .feedback-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .feedback-title i {
+            font-size: 1.5rem;
+        }
+        
+        .feedback.correct .feedback-title {
+            color: #2e7d32;
+        }
+        
+        .feedback.incorrect .feedback-title {
+            color: #c62828;
+        }
+        
+        .feedback-content {
+            line-height: 1.6;
+        }
+        
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px solid #e9ecef;
+        }
+        
+        .btn {
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .btn-prev {
+            background-color: #f8f9fa;
+            color: #666;
+            border: 2px solid #dee2e6;
+        }
+        
+        .btn-prev:hover:not(:disabled) {
+            background-color: #e9ecef;
+        }
+        
+        .btn-next {
+            background-color: #1e3799;
+            color: white;
+        }
+        
+        .btn-next:hover:not(:disabled) {
+            background-color: #0c2461;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(30, 55, 153, 0.4);
+        }
+        
+        .btn-submit {
+            background-color: #4CAF50;
+            color: white;
+        }
+        
+        .btn-submit:hover:not(:disabled) {
+            background-color: #388E3C;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
+        }
+        
+        .results-screen {
+            display: none;
+            text-align: center;
+            padding: 40px 20px;
+        }
+        
+        .results-title {
+            font-size: 2.5rem;
+            color: #1e3799;
+            margin-bottom: 30px;
+        }
+        
+        .final-score {
+            font-size: 5rem;
+            font-weight: 800;
+            color: #1e3799;
+            margin-bottom: 10px;
+        }
+        
+        .final-grade {
+            font-size: 2rem;
+            color: #666;
+            margin-bottom: 40px;
+        }
+        
+        .medals-earned {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 40px 0;
+        }
+        
+        .medal-large {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            background-color: #e9ecef;
+            color: #adb5bd;
+            transition: all 0.5s;
+        }
+        
+        .medal-large.active {
+            transform: scale(1.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .medal-large.gold.active {
+            background: radial-gradient(circle at 30% 30%, #ffd700, #b8860b);
+            color: #fff;
+        }
+        
+        .medal-large.silver.active {
+            background: radial-gradient(circle at 30% 30%, #c0c0c0, #808080);
+            color: #fff;
+        }
+        
+        .medal-large.bronze.active {
+            background: radial-gradient(circle at 30% 30%, #cd7f32, #8b4513);
+            color: #fff;
+        }
+        
+        .medal-label {
+            font-size: 0.9rem;
+            margin-top: 5px;
+            color: #666;
+        }
+        
+        .results-message {
+            font-size: 1.3rem;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 15px;
+        }
+        
+        .btn-restart {
+            background-color: #1e3799;
+            color: white;
+            margin: 20px auto;
+            padding: 15px 40px;
+            font-size: 1.2rem;
+        }
+        
+        .btn-restart:hover {
+            background-color: #0c2461;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(30, 55, 153, 0.4);
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            font-size: 0.9rem;
+            border-top: 1px solid #e9ecef;
+            margin-top: 20px;
+        }
+        
+        @media (max-width: 992px) {
+            .game-area {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                border-right: none;
+                border-bottom: 3px solid #e9ecef;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-handshake"></i>
+                <div>
+                    <h1>NegociaMaster</h1>
+                    <div class="subtitle">Simulador Interativo de Técnicas de Negociação</div>
+                </div>
+            </div>
+            <div class="professor-info">
+                <strong>Professor:</strong> Ricardo de Faria Barros | <strong>Disciplina:</strong> Técnicas de Negociação | <strong>Instituição:</strong> IBMEC | <strong>Data:</strong> Fevereiro de 2026
+            </div>
+        </header>
+        
+        <div class="game-area">
+            <div class="sidebar">
+                <div class="score-board">
+                    <div class="score-title">SUA PONTUAÇÃO</div>
+                    <div class="score-value">0</div>
+                    <div class="score-max">de 20 pontos</div>
+                    <div class="progress-container">
+                        <div class="progress-bar">
+                            <div class="progress-fill"></div>
+                        </div>
+                        <div class="progress-text">
+                            <span>0%</span>
+                            <span>Nota: 0.0</span>
+                        </div>
+                    </div>
+                    <div class="medals-container">
+                        <div class="medal gold" title="Ouro: 18-20 pontos">
+                            <i class="fas fa-medal"></i>
+                        </div>
+                        <div class="medal silver" title="Prata: 14-17 pontos">
+                            <i class="fas fa-medal"></i>
+                        </div>
+                        <div class="medal bronze" title="Bronze: 10-13 pontos">
+                            <i class="fas fa-medal"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="cases-list">
+                    <h3 style="margin-bottom: 15px; color: #1e3799;">Casos de Negociação</h3>
+                    <!-- Os casos serão gerados via JavaScript -->
+                </div>
+            </div>
+            
+            <div class="main-content">
+                <div class="case-header">
+                    <div class="case-id">Caso #<span id="case-number">1</span> de 20</div>
+                    <div class="case-difficulty">Dificuldade: <span id="difficulty">Média</span></div>
+                </div>
+                
+                <div class="case-scenario">
+                    <h3>Situação de Negociação</h3>
+                    <div id="scenario-text">Carregando cenário...</div>
+                </div>
+                
+                <div class="case-question" id="question-text">Carregando pergunta...</div>
+                
+                <div class="options-container" id="options-container">
+                    <!-- As opções serão geradas via JavaScript -->
+                </div>
+                
+                <div class="feedback" id="feedback">
+                    <div class="feedback-title">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Resposta Correta!</span>
+                    </div>
+                    <div class="feedback-content" id="feedback-text">
+                        Explicação da resposta correta será exibida aqui.
+                    </div>
+                </div>
+                
+                <div class="navigation">
+                    <button class="btn btn-prev" id="prev-btn" disabled>
+                        <i class="fas fa-arrow-left"></i> Anterior
+                    </button>
+                    <button class="btn btn-next" id="next-btn">
+                        Próximo <i class="fas fa-arrow-right"></i>
+                    </button>
+                    <button class="btn btn-submit" id="submit-btn" style="display: none;">
+                        <i class="fas fa-paper-plane"></i> Enviar Resposta
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="results-screen" id="results-screen">
+            <h2 class="results-title">Resultados Finais</h2>
+            <div class="final-score" id="final-score">0</div>
+            <div class="final-grade" id="final-grade">Nota: 0.0</div>
+            
+            <div class="medals-earned">
+                <div class="medal-large gold" id="gold-medal-large">
+                    <i class="fas fa-medal"></i>
+                    <div class="medal-label">Ouro</div>
+                </div>
+                <div class="medal-large silver" id="silver-medal-large">
+                    <i class="fas fa-medal"></i>
+                    <div class="medal-label">Prata</div>
+                </div>
+                <div class="medal-large bronze" id="bronze-medal-large">
+                    <i class="fas fa-medal"></i>
+                    <div class="medal-label">Bronze</div>
+                </div>
+            </div>
+            
+            <div class="results-message" id="results-message">
+                Parabéns por completar o simulador! Suas habilidades de negociação estão em desenvolvimento.
+            </div>
+            
+            <button class="btn btn-restart" id="restart-btn">
+                <i class="fas fa-redo"></i> Reiniciar Simulador
+            </button>
+        </div>
+        
+        <footer>
+            <p>Desenvolvido para a disciplina Técnicas de Negociação - IBMEC - Fevereiro de 2026</p>
+            <p>© Professor Ricardo de Faria Barros - Todos os direitos reservados</p>
+        </footer>
+    </div>
+
+    <script>
+        // Dados dos casos de negociação
+        const negotiationCases = [
+            {
+                id: 1,
+                scenario: "Você está negociando um contrato de prestação de serviços com uma nova empresa cliente. O cliente pediu um desconto de 20% no valor original, alegando que fará um contrato de longo prazo. Você sabe que seu preço já é competitivo no mercado.",
+                question: "Qual a melhor abordagem inicial nesta situação?",
+                options: [
+                    {
+                        text: "Recusar imediatamente o desconto, explicando que seu preço já é justo e competitivo.",
+                        correct: false,
+                        feedback: "Recusar imediatamente pode fechar portas para negociação. É melhor explorar primeiro os interesses do cliente."
+                    },
+                    {
+                        text: "Concordar com o desconto para garantir o contrato de longo prazo, mesmo afetando sua margem.",
+                        correct: false,
+                        feedback: "Ceder sem contrapartida reduz seu poder e margem. É importante buscar algo em troca."
+                    },
+                    {
+                        text: "Explorar o que o cliente entende por 'longo prazo' e buscar outras variáveis além do preço (formas de pagamento, escopo, etc.).",
+                        correct: true,
+                        feedback: "CORRETO! Antes de discutir preço, explore outras variáveis e entenda exatamente o que o cliente oferece em troca. Isso permite criar valor mutuamente."
+                    }
+                ],
+                difficulty: "Média"
+            },
+            {
+                id: 2,
+                scenario: "Durante uma negociação salarial, seu chefe diz que não há orçamento para aumentos este ano, mas reconhece seu bom desempenho.",
+                question: "Como você pode criar valor nesta negociação aparentemente travada?",
+                options: [
+                    {
+                        text: "Aceitar a situação e esperar pelo próximo ano, demonstrando compreensão.",
+                        correct: false,
+                        feedback: "Aceitar sem explorar alternativas perde oportunidades de criar valor não-monetário."
+                    },
+                    {
+                        text: "Ameaçar procurar outro emprego se não houver aumento, forçando a decisão.",
+                        correct: false,
+                        feedback: "Ameaças geralmente prejudicam relacionamentos e fecham portas para soluções criativas."
+                    },
+                    {
+                        text: "Propor benefícios não-monetários: flexibilidade de horário, treinamentos, participação em projetos especiais ou bônus por metas.",
+                        correct: true,
+                        feedback: "CORRETO! Quando o orçamento é limitado, benefícios não-monetários podem criar valor para ambas as partes sem impactar o caixa imediato."
+                    }
+                ],
+                difficulty: "Fácil"
+            },
+            {
+                id: 3,
+                scenario: "Você está comprando um carro usado. O vendedor pede R$ 45.000, mas você pesquisou e sabe que o valor de mercado é entre R$ 38.000 e R$ 42.000.",
+                question: "Qual a melhor estratégia para iniciar a negociação?",
+                options: [
+                    {
+                        text: "Oferecer R$ 35.000 para ter margem de barganha, mesmo sabendo que é baixo demais.",
+                        correct: false,
+                        feedback: "Ofertas muito baixas podem ofender o vendedor e prejudicar a credibilidade."
+                    },
+                    {
+                        text: "Perguntar como ele chegou no valor de R$ 45.000 e apresentar sua pesquisa de mercado.",
+                        correct: true,
+                        feedback: "CORRETO! Iniciar com perguntas e dados objetivos estabelece uma negociação baseada em fatos, não em posições arbitrárias."
+                    },
+                    {
+                        text: "Aceitar negociar a partir dos R$ 45.000, tentando chegar em R$ 42.000.",
+                        correct: false,
+                        feedback: "Começar da posição do vendedor enfraquece sua própria posição. É melhor estabelecer uma âncora baseada em dados."
+                    }
+                ],
+                difficulty: "Média"
+            },
+            {
+                id: 4,
+                scenario: "Em uma negociação internacional, a contraparte de outra cultura parece concordar com tudo, mas depois não cumpre o combinado.",
+                question: "O que provavelmente aconteceu e como evitar?",
+                options: [
+                    {
+                        text: "Eles estão agindo de má-fé e você deve confrontá-los diretamente.",
+                        correct: false,
+                        feedback: "Confronto direto pode piorar a situação, especialmente sem entender diferenças culturais."
+                    },
+                    {
+                        text: "Em algumas culturas, dizer 'sim' pode significar 'estou ouvindo', não concordância. Deve-se buscar confirmação por escrito e verificar entendimento mútuo.",
+                        correct: true,
+                        feedback: "CORRETO! Diferenças culturais na comunicação são comuns. Buscar confirmação explícita e documentar acordos previne mal-entendidos."
+                    },
+                    {
+                        text: "Você deve aceitar que negociações internacionais sempre têm esses riscos e seguir em frente.",
+                        correct: false,
+                        feedback: "Ignorar diferenças culturais leva a repetição de erros. É preciso adaptar a abordagem."
+                    }
+                ],
+                difficulty: "Difícil"
+            },
+            {
+                id: 5,
+                scenario: "Você descobriu que tem um BATNA (Melhor Alternativa) muito forte: outra empresa ofereceu uma proposta 20% melhor.",
+                question: "Como usar essa informação estrategicamente?",
+                options: [
+                    {
+                        text: "Mostrar imediatamente a proposta rival para forçar uma contraproposta melhor.",
+                        correct: false,
+                        feedback: "Revelar seu BATNA muito cedo pode fazer a outra parte desistir ou reduzir sua flexibilidade."
+                    },
+                    {
+                        text: "Manter em segredo e usar apenas como referência interna para saber seu ponto de reserva.",
+                        correct: false,
+                        feedback: "Não usar uma vantagem estratégica é subutilizar informações valiosas."
+                    },
+                    {
+                        text: "Usar indiretamente, mencionando que tem 'outras opções interessantes' sem dar detalhes, enquanto busca melhorias na proposta atual.",
+                        correct: true,
+                        feedback: "CORRETO! Sinalizar que tem alternativas sem revelar detalhes mantém pressão positiva e permite negociar de forma mais confiante."
+                    }
+                ],
+                difficulty: "Média"
+            },
+            {
+                id: 6,
+                scenario: "A contraparte faz uma primeira oferta absurdamente baixa em uma licitação.",
+                question: "Como reagir profissionalmente?",
+                options: [
+                    {
+                        text: "Rir da proposta e desistir da negociação imediatamente.",
+                        correct: false,
+                        feedback: "Reações emocionais fecham oportunidades. Mesmo ofertas ruins podem ser ponto de partida."
+                    },
+                    {
+                        text: "Contrapor com uma oferta igualmente absurda para o outro lado, para 'nivelar' a negociação.",
+                        correct: false,
+                        feedback: "Jogos de âncora extremas raramente levam a bons resultados e criam clima adversário."
+                    },
+                    {
+                        text: "Ignorar a oferta inicial e perguntar sobre os critérios e necessidades por trás da proposta, refazendo a âncora.",
+                        correct: true,
+                        feedback: "CORRETO! Não se prender a âncoras irracionais. Redirecionar a conversa para critérios objetivos redefine a negociação."
+                    }
+                ],
+                difficulty: "Média"
+            },
+            {
+                id: 7,
+                scenario: "Durante uma negociação tensa, a contraparte começa a gritar e fazer acusações pessoais.",
+                question: "Qual a melhor resposta para retomar o controle da situação?",
+                options: [
+                    {
+                        text: "Gritar de volta para mostrar que não intimida.",
+                        correct: false,
+                        feedback: "Reagir com a mesma emoção escalaria o conflito e prejudicaria qualquer chance de acordo."
+                    },
+                    {
+                        text: "Ficar calado até que ele se acalme, demonstrando paciência.",
+                        correct: false,
+                        feedback: "Passividade pode ser interpretada como fraqueza ou concordância tácita."
+                    },
+                    {
+                        text: "Propor uma pausa na reunião e, quando retomar, focar nos interesses (não nas pessoas) usando linguagem neutra.",
+                        correct: true,
+                        feedback: "CORRETO! Separar as pessoas do problema é princípio fundamental. Uma pausa permite desescalar emoções e retomar com foco nos interesses."
+                    }
+                ],
+                difficulty: "Difícil"
+            },
+            {
+                id: 8,
+                scenario: "Você percebe que a outra parte está mentindo sobre uma informação importante.",
+                question: "Como abordar essa situação sem destruir a relação?",
+                options: [
+                    {
+                        text: "Confrontar diretamente, chamando-a de mentirosa para forçar a verdade.",
+                        correct: false,
+                        feedback: "Acusações diretas colocam a outra parte na defensiva e dificultam a solução."
+                    },
+                    {
+                        text: "Ignorar a mentira e continuar a negociação como se nada tivesse acontecido.",
+                        correct: false,
+                        feedback: "Ignorar desonestidade pode levar a acordos ruins e perda de credibilidade futura."
+                    },
+                    {
+                        text: "Fazer perguntas que exponham a inconsistência sem acusar, dando oportunidade para correção.",
+                        correct: true,
+                        feedback: "CORRETO! Perguntas estratégicas permitem que a outra parte salve a face enquanto corrige a informação, preservando a relação."
+                    }
+                ],
+                difficulty: "Difícil"
+            },
+            {
+                id: 9,
+                scenario: "Você precisa fechar um acordo hoje, mas a contraparte sabe disso e está se aproveitando.",
+                question: "Como reduzir essa desvantagem tática?",
+                options: [
+                    {
+                        text: "Mentir dizendo que tem mais tempo do que realmente tem.",
+                        correct: false,
+                        feedback: "Mentiras descobertas destroem credibilidade e podem inviabilizar futuras negociações."
+                    },
+                    {
+                        text: "Aceitar condições piores, já que não há alternativa.",
+                        correct: false,
+                        feedback: "Aceitar um mau acordo é pior do que não fechar acordo. Sempre há alternativas a explorar."
+                    },
+                    {
+                        text: "Reconhecer o prazo, mas focar em como um acordo rápido também beneficia a outra parte, criando urgência compartilhada.",
+                        correct: true,
+                        feedback: "CORRETO! Transformar uma fraqueza em oportunidade mútua. Mostrar os benefícios de fechar hoje para AMBAS as partes reequilibra o poder."
+                    }
+                ],
+                difficulty: "Média"
+            },
+            {
+                id: 10,
+                scenario: "A negociação está parada em um ponto específico: nenhum lado quer ceder no preço.",
+                question: "Como destravar essa situação?",
+                options: [
+                    {
+                        text: "Insistir no mesmo ponto até que um lado ceda por cansaço.",
+                        correct: false,
+                        feedback: "Batalhas de desgaste deterioram relações e raramente produzem bons resultados."
+                    },
+                    {
+                        text: "Ameaçar terminar a negociação se não houver movimento.",
+                        correct: false,
+                        feedback: "Ultimatos muitas vezes levam ao fim da negociação sem acordo, perdendo-se valor potencial."
+                    },
+                    {
+                        text: "Ampliar a agenda: incluir outras variáveis como prazos, garantias, formas de pagamento ou itens adicionais.",
+                        correct: true,
+                        feedback: "CORRETO! Quando há impasse em uma variável, expandir o leque de questões cria novas possibilidades de troca de valor."
+                    }
+                ],
+                difficulty: "Média"
+            },
+            {
+                id: 11,
+                scenario: "Você está em uma negociação coletiva com um sindicato. Há 15 pessoas do outro lado, cada uma com demandas diferentes.",
+                question: "Como estruturar essa negociação complexa?",
+                options: [
+                    {
+                        text: "Escolher o líder mais razoável e negociar apenas com ele, ignorando os outros.",
+                        correct: false,
+                        feedback: "Ignorar partes interessadas pode criar resistência e sabotagem do acordo posteriormente."
+                    },
+                    {
+                        text: "Pedir que eles elejam 3 representantes para negociar em nome do grupo.",
+                        correct: true,
+                        feedback: "CORRETO! Negociações com múltiplas partes exigem estruturação. Representantes legitimados simplificam o processo enquanto mantém a representatividade."
+                    },
+                    {
+                        text: "Tentar negociar individualmente com cada pessoa para dividir o grupo.",
+                        correct: false,
+                        feedback: "Dividir o grupo pode ser visto como tática manipuladora e gerar desconfiança."
+                    }
+                ],
+                difficulty: "Difícil"
+            },
+            {
+                id: 12,
+                scenario: "A contraparte faz uma oferta muito boa, quase suspeitosamente boa.",
+                question: "Qual a atitude mais prudente?",
+                options: [
+                    {
+                        text: "Aceitar imediatamente antes que mudem de ideia.",
+                        correct: false,
+                        feedback: "Aceitar ofertas sem entender completamente os termos pode esconder armadilhas ou mal-entendidos."
+                    },
+                    {
+                        text: "Desconfiar e rejeitar, pois 'quando a esmola é demais, o santo desconfia'.",
+                        correct: false,
+                        feedback: "Rejeitar sem investigar pode perder oportunidades genuinamente boas."
+                    },
+                    {
+                        text: "Agradecer e pedir tempo para analisar a proposta detalhadamente, verificando se há 'letras miúdas' ou entendimentos diferentes.",
+                        correct: true,
+                        feedback: "CORRETO! Boas ofertas merecem consideração cuidadosa, não impulsiva. Tempo para análise previne surpresas desagradáveis."
+                    }
+                ],
+                difficulty: "Fácil"
+            },
+            {
+                id: 13,
+                scenario: "Você percebe que cometeu um erro grave: ofereceu um preço muito baixo e agora está perdendo dinheiro.",
+                question: "Como corrigir isso sem perder credibilidade?",
+                options: [
+                    {
+                        text: "Honrar o erro e cumprir o preço oferecido, aprendendo para a próxima.",
+                        correct: false,
+                        feedback: "Honrar erros custosos pode ser financeiramente insustentável, especialmente em negócios."
+                    },
+                    {
+                        text: "Inventar uma desculpa para cancelar o acordo.",
+                        correct: false,
+                        feedback: "Desculpas inventadas, quando descobertas, destroem credibilidade permanentemente."
+                    },
+                    {
+                        text: "Explicar honestamente o erro, mostrar os números reais e renegociar com transparência.",
+                        correct: true,
+                        feedback: "CORRETO! Transparência sobre erros, quando acompanhada de dados e proposta de solução, geralmente gera respeito e abertura para renegociação."
+                    }
+                ],
+                difficulty: "Média"
+            },
+            {
+                id: 14,
+                scenario: "A negociação está indo bem, mas você sente que pode conseguir mais do que planejava inicialmente.",
+                question: "Como proceder?",
+                options: [
+                    {
+                        text: "Aproveitar a vantagem e exigir muito mais, maximizando o ganho.",
+                        correct: false,
+                        feedback: "Ganância excessiva pode fazer a outra parte reconsiderar todo o acordo e prejudicar relações futuras."
+                    },
+                    {
+                        text: "Contentar-se com o que planejava e fechar o acordo rapidamente.",
+                        correct: false,
+                        feedback: "Deixar valor na mesa não é estratégico, desde que feito de forma ética e relacional."
+                    },
+                    {
+                        text: "Explorar cuidadosamente se há espaço para melhorias adicionais, mantendo relação ganha-ganha.",
+                        correct: true,
+                        feedback: "CORRETO! Negociação é criação de valor. Se há espaço para mais valor para ambos, vale explorar, mantendo sempre o equilíbrio relacional."
+                    }
+                ],
+                difficulty: "Fácil"
+            },
+            {
+                id: 15,
+                scenario: "A contraparte está usando táticas agressivas: interrompendo, fazendo exigências absurdas e usando linguagem corporal intimidatória.",
+                question: "Como neutralizar essas táticas?",
+                options: [
+                    {
+                        text: "Responder com as mesmas táticas para mostrar que não intimida.",
+                        correct: false,
+                        feedback: "Espelhar comportamento agressivo apenas escalaria o conflito."
+                    },
+                    {
+                        text: "Ceder em alguns pontos para acalmar o ambiente.",
+                        correct: false,
+                        feedback: "Ceder sob pressão ensina à contraparte que táticas agressivas funcionam, incentivando repetição."
+                    },
+                    {
+                        text: "Nomear a tática educadamente ('Percebo que estamos com pressão...') e redirecionar para os interesses substanciais.",
+                        correct: true,
+                        feedback: "CORRETO! Nomear o jogo tático sem acusar, seguido de redirecionamento para o conteúdo, desarma táticas agressivas de forma profissional."
+                    }
+                ],
+                difficulty: "Difícil"
+            },
+            {
+                id: 16,
+                scenario: "Você está negociando por telefone e não pode ver a linguagem corporal da contraparte.",
+                question: "Que adaptações são importantes nesse formato?",
+                options: [
+                    {
+                        text: "Falar mais rápido para cobrir a falta de sinais visuais.",
+                        correct: false,
+                        feedback: "Falar mais rápido pode causar mal-entendidos e parecer ansioso."
+                    },
+                    {
+                        text: "Parafrasear e resumir com mais frequência para garantir entendimento mútuo.",
+                        correct: true,
+                        feedback: "CORRETO! Na ausência de comunicação não-verbal, verificação verbal constante é essencial para alinhamento."
+                    },
+                    {
+                        text: "Confiar totalmente no que é dito, sem desconfiar de possíveis omissões.",
+                        correct: false,
+                        feedback: "A falta de sinais não-verbais exige MAIS verificação, não menos."
+                    }
+                ],
+                difficulty: "Média"
+            },
+            {
+                id: 17,
+                scenario: "A outra parte pede uma concessão 'pequena' no final da negociação, quando tudo parece acertado.",
+                question: "Como lidar com esse 'apêndice' de última hora?",
+                options: [
+                    {
+                        text: "Recusar firmemente, pois o acordo já estava fechado.",
+                        correct: false,
+                        feedback: "Recusas firmes a pequenos pedidos podem parecer inflexíveis e prejudicar o clima de fechamento."
+                    },
+                    {
+                        text: "Ceder imediatamente para não arriscar o acordo todo.",
+                        correct: false,
+                        feedback: "Ceder sempre a pedidos de última hora ensina que essa tática funciona, incentivando repetição."
+                    },
+                    {
+                        text: "Tratar como nova negociação: pedir algo em troca, mesmo que simbólico.",
+                        correct: true,
+                        feedback: "CORRETO! Nunca ceda de graça, mesmo em pedidos pequenos de última hora. Exigir contrapartida, mesmo simbólica, mantém o equilíbrio e desincentiva abusos."
+                    }
+                ],
+                difficulty: "Média"
+            },
+            {
+                id: 18,
+                scenario: "Você precisa negociar com alguém com quem teve um conflito pessoal no passado.",
+                question: "Como preparar-se para essa situação delicada?",
+                options: [
+                    {
+                        text: "Ignorar o passado e agir como se fosse a primeira interação.",
+                        correct: false,
+                        feedback: "Ignorar história compartilhada é artificial e pode deixar tensões não resolvidas sob a superfície."
+                    },
+                    {
+                        text: "Começar a negociação abordando diretamente o conflito passado para 'limpar o ar'.",
+                        correct: true,
+                        feedback: "CORRETO! Abordar o elefante na sala de forma profissional e construtiva previne que questões pessoais contaminem a negociação atual."
+                    },
+                    {
+                        text: "Adotar posição dura desde o início para mostrar que não será afetado pelo passado.",
+                        correct: false,
+                        feedback: "Posição dura inicial pode ser interpretada como vingança pelo passado, piorando a situação."
+                    }
+                ],
+                difficulty: "Difícil"
+            },
+            {
+                id: 19,
+                scenario: "Durante uma longa negociação, você percebe que está ficando cansado e cometendo erros de julgamento.",
+                question: "Qual a melhor ação?",
+                options: [
+                    {
+                        text: "Continuar, pois parar seria sinal de fraqueza.",
+                        correct: false,
+                        feedback: "Negociar com fadiga leva a decisões ruins que podem ter consequências duradouras."
+                    },
+                    {
+                        text: "Propor uma pausa, reconhecendo a necessidade de descanso para decisões de qualidade.",
+                        correct: true,
+                        feedback: "CORRETO! Fadiga prejudica o julgamento. Pausas estratégicas são sinal de profissionalismo, não fraqueza."
+                    },
+                    {
+                        text: "Delegar para um colega que está mais descansado continuar no seu lugar.",
+                        correct: false,
+                        feedback: "Trocar negociadores no meio do processo pode causar descontinuidade e perda de rapport."
+                    }
+                ],
+                difficulty: "Fácil"
+            },
+            {
+                id: 20,
+                scenario: "Você acaba de fechar um acordo que parece bom no papel, mas tem uma sensação ruim sobre como será a implementação.",
+                question: "O que fazer antes de considerar a negociação finalizada?",
+                options: [
+                    {
+                        text: "Ignorar a sensação e confiar no acordo formal.",
+                        correct: false,
+                        feedback: "Intuições baseadas em experiência muitas vezes sinalizam problemas reais que merecem atenção."
+                    },
+                    {
+                        text: "Incluir cláusulas detalhadas de implementação, prazos, métricas e responsabilidades no acordo.",
+                        correct: true,
+                        feedback: "CORRETO! Um acordo é tão bom quanto sua implementação. Detalhar o 'como' previne mal-entendidos e garante execução sucessiva."
+                    },
+                    {
+                        text: "Pedir garantias financeiras extras para se proteger contra possível não cumprimento.",
+                        correct: false,
+                        feedback: "Garantias financeiras são úteis, mas não substituem um plano claro de implementação compartilhado."
+                    }
+                ],
+                difficulty: "Média"
+            }
+        ];
+
+        // Variáveis do jogo
+        let currentCaseIndex = 0;
+        let score = 0;
+        let userAnswers = new Array(negotiationCases.length).fill(null);
+        let selectedOption = null;
+
+        // Inicializar o jogo
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeGame();
+            loadCase(currentCaseIndex);
+            updateProgress();
+            
+            // Event listeners para navegação
+            document.getElementById('prev-btn').addEventListener('click', goToPrevCase);
+            document.getElementById('next-btn').addEventListener('click', goToNextCase);
+            document.getElementById('submit-btn').addEventListener('click', submitAnswer);
+            document.getElementById('restart-btn').addEventListener('click', restartGame);
+        });
+
+        // Inicializar lista de casos
+        function initializeGame() {
+            const casesList = document.querySelector('.cases-list');
+            
+            negotiationCases.forEach((caseItem, index) => {
+                const caseElement = document.createElement('div');
+                caseElement.className = 'case-item';
+                if (index === 0) caseElement.classList.add('active');
+                
+                caseElement.innerHTML = `
+                    <div class="case-number">Caso ${index + 1}</div>
+                    <div class="case-title">${caseItem.scenario.substring(0, 60)}...</div>
+                `;
+                
+                caseElement.addEventListener('click', () => {
+                    if (userAnswers[index] === null || index === currentCaseIndex) {
+                        loadCase(index);
+                    }
+                });
+                
+                casesList.appendChild(caseElement);
+            });
+        }
+
+        // Carregar um caso específico
+        function loadCase(index) {
+            currentCaseIndex = index;
+            const caseData = negotiationCases[index];
+            
+            // Atualizar interface do caso
+            document.getElementById('case-number').textContent = index + 1;
+            document.getElementById('difficulty').textContent = caseData.difficulty;
+            document.getElementById('scenario-text').textContent = caseData.scenario;
+            document.getElementById('question-text').textContent = caseData.question;
+            
+            // Atualizar lista de casos ativa
+            document.querySelectorAll('.case-item').forEach((item, i) => {
+                item.classList.remove('active');
+                if (userAnswers[i] !== null) {
+                    item.classList.add('completed');
+                } else {
+                    item.classList.remove('completed');
+                }
+            });
+            document.querySelectorAll('.case-item')[index].classList.add('active');
+            
+            // Criar opções
+            const optionsContainer = document.getElementById('options-container');
+            optionsContainer.innerHTML = '';
+            
+            caseData.options.forEach((option, optionIndex) => {
+                const optionElement = document.createElement('div');
+                optionElement.className = 'option';
+                if (userAnswers[index] === optionIndex) {
+                    optionElement.classList.add('selected');
+                    selectedOption = optionIndex;
+                }
+                
+                optionElement.innerHTML = `
+                    <div class="option-indicator">${String.fromCharCode(65 + optionIndex)}</div>
+                    <div class="option-text">${option.text}</div>
+                `;
+                
+                optionElement.addEventListener('click', () => {
+                    if (userAnswers[index] === null) {
+                        selectOption(optionIndex);
+                    }
+                });
+                
+                optionsContainer.appendChild(optionElement);
+            });
+            
+            // Mostrar/ocultar feedback baseado em resposta anterior
+            const feedback = document.getElementById('feedback');
+            if (userAnswers[index] !== null) {
+                const userAnswer = userAnswers[index];
+                const isCorrect = caseData.options[userAnswer].correct;
+                
+                feedback.className = isCorrect ? 'feedback correct' : 'feedback incorrect';
+                feedback.querySelector('.feedback-title i').className = isCorrect ? 'fas fa-check-circle' : 'fas fa-times-circle';
+                feedback.querySelector('.feedback-title span').textContent = isCorrect ? 'Resposta Correta!' : 'Resposta Incorreta';
+                feedback.querySelector('#feedback-text').textContent = caseData.options[userAnswer].feedback;
+                feedback.style.display = 'block';
+                
+                // Marcar opções como corretas/incorretas
+                document.querySelectorAll('.option').forEach((opt, optIndex) => {
+                    if (caseData.options[optIndex].correct) {
+                        opt.classList.add('correct');
+                    } else if (optIndex === userAnswer && !caseData.options[optIndex].correct) {
+                        opt.classList.add('incorrect');
+                    }
+                });
+                
+                document.getElementById('submit-btn').style.display = 'none';
+                document.getElementById('next-btn').style.display = 'flex';
+            } else {
+                feedback.style.display = 'none';
+                document.getElementById('submit-btn').style.display = 'flex';
+                document.getElementById('next-btn').style.display = 'none';
+            }
+            
+            // Atualizar estado dos botões de navegação
+            document.getElementById('prev-btn').disabled = index === 0;
+            document.getElementById('next-btn').disabled = index === negotiationCases.length - 1 && userAnswers[index] === null;
+            
+            if (index === negotiationCases.length - 1 && userAnswers[index] !== null) {
+                document.getElementById('next-btn').innerHTML = 'Ver Resultados <i class="fas fa-trophy"></i>';
+                document.getElementById('next-btn').onclick = showResults;
+            } else {
+                document.getElementById('next-btn').innerHTML = 'Próximo <i class="fas fa-arrow-right"></i>';
+                document.getElementById('next-btn').onclick = goToNextCase;
+            }
+        }
+
+        // Selecionar uma opção
+        function selectOption(optionIndex) {
+            // Remover seleção anterior
+            document.querySelectorAll('.option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            
+            // Adicionar nova seleção
+            document.querySelectorAll('.option')[optionIndex].classList.add('selected');
+            selectedOption = optionIndex;
+        }
+
+        // Submeter resposta
+        function submitAnswer() {
+            if (selectedOption === null) {
+                alert('Por favor, selecione uma opção antes de enviar.');
+                return;
+            }
+            
+            const caseData = negotiationCases[currentCaseIndex];
+            userAnswers[currentCaseIndex] = selectedOption;
+            
+            // Verificar se a resposta está correta
+            if (caseData.options[selectedOption].correct) {
+                score++;
+                updateScore();
+            }
+            
+            // Marcar caso como completado na lista
+            document.querySelectorAll('.case-item')[currentCaseIndex].classList.add('completed');
+            
+            // Mostrar feedback
+            loadCase(currentCaseIndex);
+            
+            // Verificar se todos os casos foram respondidos
+            if (userAnswers.every(answer => answer !== null)) {
+                setTimeout(showResults, 500);
+            }
+        }
+
+        // Atualizar pontuação
+        function updateScore() {
+            const scoreElement = document.querySelector('.score-value');
+            const grade = (score / 2).toFixed(1);
+            
+            scoreElement.textContent = score;
+            document.querySelector('.progress-text span:last-child').textContent = `Nota: ${grade}`;
+            
+            // Atualizar barra de progresso
+            const percentage = (score / negotiationCases.length) * 100;
+            document.querySelector('.progress-fill').style.width = `${percentage}%`;
+            document.querySelector('.progress-text span:first-child').textContent = `${Math.round(percentage)}%`;
+            
+            // Atualizar medalhas
+            updateMedals();
+        }
+
+        // Atualizar medalhas na barra lateral
+        function updateMedals() {
+            const goldMedal = document.querySelector('.medal.gold');
+            const silverMedal = document.querySelector('.medal.silver');
+            const bronzeMedal = document.querySelector('.medal.bronze');
+            
+            // Remover todas as medalhas ativas
+            goldMedal.classList.remove('active');
+            silverMedal.classList.remove('active');
+            bronzeMedal.classList.remove('active');
+            
+            // Ativar medalhas conforme a pontuação
+            if (score >= 18) {
+                goldMedal.classList.add('active');
+                silverMedal.classList.add('active');
+                bronzeMedal.classList.add('active');
+            } else if (score >= 14) {
+                silverMedal.classList.add('active');
+                bronzeMedal.classList.add('active');
+            } else if (score >= 10) {
+                bronzeMedal.classList.add('active');
+            }
+        }
+
+        // Atualizar progresso geral
+        function updateProgress() {
+            const answeredCount = userAnswers.filter(answer => answer !== null).length;
+            const progressPercentage = (answeredCount / negotiationCases.length) * 100;
+            
+            document.querySelector('.progress-fill').style.width = `${progressPercentage}%`;
+            document.querySelector('.progress-text span:first-child').textContent = `${Math.round(progressPercentage)}%`;
+            
+            const grade = (score / 2).toFixed(1);
+            document.querySelector('.progress-text span:last-child').textContent = `Nota: ${grade}`;
+        }
+
+        // Navegar para o caso anterior
+        function goToPrevCase() {
+            if (currentCaseIndex > 0) {
+                loadCase(currentCaseIndex - 1);
+            }
+        }
+
+        // Navegar para o próximo caso
+        function goToNextCase() {
+            if (currentCaseIndex < negotiationCases.length - 1) {
+                loadCase(currentCaseIndex + 1);
+            }
+        }
+
+        // Mostrar tela de resultados
+        function showResults() {
+            document.querySelector('.main-content').style.display = 'none';
+            document.getElementById('results-screen').style.display = 'block';
+            
+            // Calcular nota final
+            const finalGrade = (score / 2).toFixed(1);
+            
+            // Atualizar resultados
+            document.getElementById('final-score').textContent = score;
+            document.getElementById('final-grade').textContent = `Nota: ${finalGrade}`;
+            
+            // Atualizar medalhas grandes
+            const goldLarge = document.getElementById('gold-medal-large');
+            const silverLarge = document.getElementById('silver-medal-large');
+            const bronzeLarge = document.getElementById('bronze-medal-large');
+            
+            // Remover todas as medalhas ativas
+            goldLarge.classList.remove('active');
+            silverLarge.classList.remove('active');
+            bronzeLarge.classList.remove('active');
+            
+            // Ativar medalhas conforme a pontuação
+            if (score >= 18) {
+                goldLarge.classList.add('active');
+                silverLarge.classList.add('active');
+                bronzeLarge.classList.add('active');
+                document.getElementById('results-message').textContent = "EXCELENTE! Você dominou os princípios da negociação colaborativa. Sua habilidade de criar valor e manter relações é excepcional. Parabéns, Negociador Mestre!";
+            } else if (score >= 14) {
+                silverLarge.classList.add('active');
+                bronzeLarge.classList.add('active');
+                document.getElementById('results-message').textContent = "MUITO BOM! Você demonstra sólida compreensão das técnicas de negociação. Com mais prática, logo alcançará a maestria. Continue desenvolvendo sua capacidade de criar soluções ganha-ganha!";
+            } else if (score >= 10) {
+                bronzeLarge.classList.add('active');
+                document.getElementById('results-message').textContent = "BOM TRABALHO! Você tem boa base em negociação. Identifique os pontos onde pode melhorar e pratique as técnicas de criação de valor. Cada negociação é uma nova oportunidade de aprendizado!";
+            } else {
+                document.getElementById('results-message').textContent = "CONTINUE PRATICANDO! A negociação é uma habilidade que se desenvolve com estudo e experiência. Revise os casos e foque na preparação, escuta ativa e criação de valor mútuo. Você está no caminho certo!";
+            }
+        }
+
+        // Reiniciar o jogo
+        function restartGame() {
+            // Resetar variáveis
+            currentCaseIndex = 0;
+            score = 0;
+            userAnswers = new Array(negotiationCases.length).fill(null);
+            selectedOption = null;
+            
+            // Resetar interface
+            document.querySelector('.main-content').style.display = 'flex';
+            document.getElementById('results-screen').style.display = 'none';
+            
+            // Resetar lista de casos
+            document.querySelectorAll('.case-item').forEach(item => {
+                item.classList.remove('completed');
+            });
+            
+            // Atualizar pontuação e progresso
+            updateScore();
+            updateProgress();
+            
+            // Carregar primeiro caso
+            loadCase(0);
+        }
+    </script>
+</body>
+</html>
