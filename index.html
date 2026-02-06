@@ -3,1867 +3,1473 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Longelescência - Autodiagnóstico</title>
-    
-    <!-- Font Awesome -->
+    <title>NegociaMaster - Simulador de Negociação</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
-    
     <style>
-        :root {
-            /* Cores profissionais vibrantes */
-            --rosa: #E91E63;
-            --azul: #2196F3;
-            --amarelo: #FFC107;
-            --verde: #4CAF50;
-            --roxo: #9C27B0;
-            --laranja: #FF5722;
-            --azul-escuro: #0D47A1;
-            --branco: #F7FFF7;
-            
-            /* Cores de texto */
-            --texto-escuro: #222222;
-            --texto-medio: #555555;
-            --texto-claro: #777777;
-            
-            /* Espaçamentos */
-            --espaco-xs: 0.5rem;
-            --espaco-sm: 1rem;
-            --espaco-md: 1.5rem;
-            --espaco-lg: 2rem;
-            --espaco-xl: 3rem;
-            
-            /* Bordas */
-            --borda-radius: 25px;
-            --borda-radius-sm: 12px;
-            
-            /* Sombras */
-            --sombra: 0 10px 30px rgba(0, 0, 0, 0.15);
-            --sombra-forte: 0 15px 40px rgba(0, 0, 0, 0.2);
-            
-            /* Transições */
-            --transicao: all 0.3s ease;
-        }
-        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-        }
-        
-        html {
-            scroll-behavior: smooth;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
         body {
-            font-family: 'Nunito', sans-serif;
-            background: linear-gradient(135deg, #E3F2FD 0%, #FCE4EC 100%);
-            color: var(--texto-escuro);
-            line-height: 1.6;
-            overflow-x: hidden;
-            padding-bottom: 60px;
-        }
-        
-        h1, h2, h3, h4, h5, h6 {
-            font-family: 'Poppins', sans-serif;
-            font-weight: 700;
-            line-height: 1.3;
-            margin-bottom: var(--espaco-sm);
-        }
-        
-        h1 {
-            font-size: 2.8rem;
-        }
-        
-        h2 {
-            font-size: 2.2rem;
-            color: var(--azul-escuro);
-        }
-        
-        h3 {
-            font-size: 1.6rem;
-        }
-        
-        p {
-            margin-bottom: var(--espaco-sm);
-            font-size: 1.1rem;
-        }
-        
-        a {
-            text-decoration: none;
-            color: inherit;
+            background: linear-gradient(135deg, #1a2a6c, #2a3f8f);
+            color: #333;
+            min-height: 100vh;
+            padding: 20px;
         }
         
         .container {
-            width: 100%;
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 var(--espaco-sm);
-        }
-        
-        /* HEADER PROFISSIONAL */
-        .header {
-            background: linear-gradient(135deg, var(--azul-escuro) 0%, var(--roxo) 100%);
-            color: white;
-            padding: var(--espaco-xl) 0;
-            border-radius: 0 0 40px 40px;
-            box-shadow: var(--sombra-forte);
-            text-align: center;
-            position: relative;
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
             overflow: hidden;
-            margin-bottom: var(--espaco-xl);
         }
         
-        .header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ffffff' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
-            z-index: 1;
-        }
-        
-        .header-content {
-            position: relative;
-            z-index: 2;
-            padding: 0 var(--espaco-md);
-        }
-        
-        .header h1 {
-            font-size: 3rem;
-            text-shadow: 3px 3px 0 rgba(0, 0, 0, 0.2);
-            margin-bottom: var(--espaco-md);
-            background: linear-gradient(45deg, #FFF, #FFEB3B);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        
-        .subtitle {
-            font-size: 1.4rem;
-            opacity: 0.95;
-            max-width: 800px;
-            margin: 0 auto var(--espaco-lg);
-            font-weight: 600;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
-        }
-        
-        /* SEÇÃO DE FEEDBACK */
-        .feedback-section {
-            background: linear-gradient(135deg, #FFF3E0, #FFE0B2);
-            padding: var(--espaco-xl);
-            border-radius: var(--borda-radius);
-            margin: var(--espaco-xl) 0;
-            box-shadow: var(--sombra);
-            text-align: center;
-            border-left: 8px solid var(--laranja);
-        }
-        
-        .feedback-title {
-            color: var(--azul-escuro);
-            margin-bottom: var(--espaco-lg);
-            font-size: 1.8rem;
-        }
-        
-        .feedback-box {
-            background: white;
-            padding: var(--espaco-xl);
-            border-radius: 20px;
-            margin: var(--espaco-lg) 0;
-            box-shadow: var(--sombra);
-            text-align: center;
-        }
-        
-        .feedback-icon {
-            font-size: 4rem;
-            color: var(--laranja);
-            margin-bottom: var(--espaco-lg);
-            display: block;
-        }
-        
-        .feedback-btn {
-            display: inline-block;
-            padding: 20px 50px;
-            background: linear-gradient(90deg, var(--laranja), var(--rosa));
+        header {
+            background: linear-gradient(90deg, #0c2461, #1e3799);
             color: white;
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: 700;
-            font-size: 1.4rem;
-            box-shadow: 0 15px 35px rgba(255, 87, 34, 0.4);
-            transition: var(--transicao);
-            margin-top: var(--espaco-md);
-        }
-        
-        .feedback-btn:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 40px rgba(255, 87, 34, 0.6);
-        }
-        
-        /* REDES SOCIAIS DO AUTOR */
-        .social-section {
-            background: white;
-            padding: var(--espaco-xl);
-            border-radius: var(--borda-radius);
-            margin: var(--espaco-xl) 0;
-            box-shadow: var(--sombra);
+            padding: 25px;
             text-align: center;
+            border-bottom: 5px solid #f6b93b;
         }
         
-        .social-title {
-            color: var(--azul-escuro);
-            margin-bottom: var(--espaco-lg);
-            font-size: 1.8rem;
-        }
-        
-        .social-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: var(--espaco-lg);
-            margin-bottom: var(--espaco-xl);
-        }
-        
-        .social-card {
-            background: linear-gradient(135deg, #F8F9FA, #E8F4F8);
-            padding: var(--espaco-lg);
-            border-radius: 15px;
-            box-shadow: var(--sombra);
-            transition: var(--transicao);
-            text-align: center;
-        }
-        
-        .social-card:hover {
-            transform: translateY(-5px);
-        }
-        
-        .social-icon {
-            font-size: 2.5rem;
-            margin-bottom: var(--espaco-md);
-            display: block;
-        }
-        
-        .social-icon.youtube { color: #FF0000; }
-        .social-icon.website { color: var(--azul); }
-        .social-icon.plena { color: var(--verde); }
-        .social-icon.email { color: var(--roxo); }
-        .social-icon.tiktok { color: #000000; }
-        
-        .social-btn {
-            display: inline-block;
-            padding: 15px 30px;
-            background: linear-gradient(90deg, var(--azul), var(--roxo));
-            color: white;
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: 600;
-            font-size: 1.1rem;
-            transition: var(--transicao);
-            margin-top: var(--espaco-sm);
-        }
-        
-        .social-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-        }
-        
-        /* INTRO COM RELATOS */
-        .intro-box {
-            background: white;
-            color: var(--azul-escuro);
-            padding: var(--espaco-xl);
-            border-radius: var(--borda-radius);
-            margin: 0 auto var(--espaco-xl);
-            max-width: 900px;
-            box-shadow: var(--sombra);
-            border: 5px solid transparent;
-            background-clip: padding-box;
-            border-image: linear-gradient(45deg, var(--azul), var(--roxo)) 1;
-        }
-        
-        .highlight {
-            background: linear-gradient(90deg, var(--amarelo), var(--laranja));
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-weight: bold;
-            color: var(--azul-escuro);
-            display: inline-block;
-        }
-        
-        .quote {
-            font-style: italic;
-            color: var(--azul-escuro);
-            border-left: 5px solid var(--roxo);
-            padding-left: var(--espaco-lg);
-            margin: var(--espaco-lg) 0;
-            font-size: 1.2rem;
-            background: linear-gradient(90deg, rgba(156, 39, 176, 0.1), transparent);
-            padding: var(--espaco-md);
-            border-radius: 0 var(--borda-radius-sm) var(--borda-radius-sm) 0;
-        }
-        
-        .relatos-box {
-            background: linear-gradient(135deg, #FFF8E1, #FFECB3);
-            padding: var(--espaco-lg);
-            border-radius: var(--borda-radius-sm);
-            margin: var(--espaco-lg) 0;
-            border-left: 5px solid var(--laranja);
-        }
-        
-        /* NOTA SOBRE LINGUAGEM INCLUSIVA */
-        .linguagem-box {
-            background: linear-gradient(135deg, #E8F5E9, #C8E6C9);
-            padding: var(--espaco-md);
-            border-radius: var(--borda-radius-sm);
-            margin: var(--espaco-md) 0;
-            border-left: 5px solid var(--verde);
-            font-size: 0.95rem;
-        }
-        
-        /* GAMIFICAÇÃO SIMPLIFICADA */
-        .gamification {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: var(--espaco-xl);
-            margin: var(--espaco-xl) auto;
-            flex-wrap: wrap;
-        }
-        
-        .counter-box {
-            background: white;
-            border-radius: var(--borda-radius);
-            padding: var(--espaco-xl);
-            text-align: center;
-            box-shadow: var(--sombra);
-            border: 5px solid;
-            min-width: 250px;
-            transition: var(--transicao);
-        }
-        
-        .counter-box:hover {
-            transform: translateY(-5px) scale(1.05);
-        }
-        
-        .counter-box:nth-child(1) {
-            border-color: var(--rosa);
-        }
-        
-        .counter-box:nth-child(2) {
-            border-color: var(--azul);
-        }
-        
-        .counter-value {
-            font-size: 4.5rem;
-            font-weight: 900;
-            line-height: 1;
-            margin: 20px 0;
-            background: linear-gradient(45deg, var(--rosa), var(--azul));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        
-        .counter-label {
-            font-size: 1.3rem;
-            color: var(--azul-escuro);
-            font-weight: 700;
-        }
-        
-        /* BOTÕES DE AÇÃO */
-        .action-buttons {
-            display: flex;
-            justify-content: center;
-            gap: var(--espaco-lg);
-            flex-wrap: wrap;
-            margin: var(--espaco-xl) 0;
-        }
-        
-        .action-btn {
-            padding: 25px 50px;
-            border: none;
-            border-radius: 50px;
-            font-weight: 700;
-            font-size: 1.3rem;
-            cursor: pointer;
-            transition: var(--transicao);
+        .logo {
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 15px;
-            min-width: 300px;
-            text-align: center;
+            margin-bottom: 10px;
         }
         
-        .start-btn {
-            background: linear-gradient(90deg, var(--azul), var(--roxo));
-            color: white;
-            box-shadow: 0 15px 35px rgba(33, 150, 243, 0.4);
-        }
-        
-        .download-btn {
-            background: linear-gradient(90deg, var(--verde), #4CAF50);
-            color: white;
-            box-shadow: 0 15px 35px rgba(76, 175, 80, 0.4);
-        }
-        
-        .results-btn {
-            background: linear-gradient(90deg, var(--amarelo), var(--laranja));
-            color: var(--azul-escuro);
-            box-shadow: 0 15px 35px rgba(255, 193, 7, 0.4);
-        }
-        
-        .action-btn:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-        }
-        
-        /* AVISO IMPORTANTE */
-        .aviso {
-            background: linear-gradient(90deg, var(--amarelo), var(--laranja));
-            color: var(--azul-escuro);
-            padding: var(--espaco-md);
-            border-radius: var(--borda-radius-sm);
-            margin: var(--espaco-lg) 0;
-            font-weight: 700;
-            text-align: center;
-            border: 3px solid var(--rosa);
-            font-size: 1.1rem;
-        }
-        
-        /* MODAL DE QUESTÕES */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.85);
-            z-index: 2000;
-            overflow-y: auto;
-            padding: 20px;
-        }
-        
-        .modal-content {
-            background-color: white;
-            max-width: 800px;
-            margin: 30px auto;
-            border-radius: 30px;
-            overflow: hidden;
-            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.4);
-            animation: modalAppear 0.5s;
-        }
-        
-        @keyframes modalAppear {
-            from { opacity: 0; transform: translateY(50px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        /* HEADER DO MODAL */
-        .modal-header {
-            background: linear-gradient(90deg, var(--azul-escuro), var(--roxo));
-            padding: 25px;
-            color: white;
-            font-size: 1.5rem;
-            font-weight: 700;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .close-modal {
+        .logo i {
             font-size: 2.5rem;
-            cursor: pointer;
-            transition: var(--transicao);
+            color: #f6b93b;
         }
         
-        .close-modal:hover {
-            transform: rotate(90deg);
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 5px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
         }
         
-        /* QUESTÃO */
-        .question-box {
-            background: linear-gradient(135deg, #F8F9FA, #E8F4F8);
-            padding: 40px;
-            border-radius: 20px;
-            margin: 30px;
-            border-left: 8px solid var(--azul);
-            box-shadow: 0 10px 25px rgba(33, 150, 243, 0.2);
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 15px;
         }
         
-        .question-number {
+        .professor-info {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 10px;
+            border-radius: 10px;
             display: inline-block;
-            background: var(--azul-escuro);
-            color: white;
-            padding: 10px 20px;
-            border-radius: 50px;
-            font-weight: 700;
-            margin-bottom: 20px;
-            font-size: 1.2rem;
+            margin-top: 10px;
+            font-size: 0.9rem;
         }
         
-        .question-text {
-            font-size: 1.6rem;
-            line-height: 1.5;
-            color: #000000;
-            font-weight: 600;
-            margin-bottom: 0;
-        }
-        
-        /* OPÇÕES */
-        .option {
-            padding: 22px;
-            border-radius: 20px;
-            border: 3px solid #E0E0E0;
-            cursor: pointer;
-            transition: var(--transicao);
-            font-size: 1.2rem;
+        .game-area {
             display: flex;
-            align-items: center;
-            gap: 20px;
-            background-color: white;
-            margin: 18px 30px;
+            min-height: 600px;
         }
         
-        .option:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        .sidebar {
+            width: 300px;
+            background-color: #f8f9fa;
+            padding: 25px;
+            border-right: 3px solid #e9ecef;
+            display: flex;
+            flex-direction: column;
         }
         
-        .option.selected {
-            border-color: var(--azul);
-            background: linear-gradient(135deg, #E8F4F8, #F0F9FF);
+        .score-board {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            margin-bottom: 25px;
+            text-align: center;
         }
         
-        .option.correct {
-            border-color: var(--verde);
-            background: linear-gradient(135deg, #E8F9F3, #F0FFF5);
+        .score-title {
+            font-size: 1.5rem;
+            color: #0c2461;
+            margin-bottom: 15px;
+            font-weight: 700;
         }
         
-        .option.incorrect {
-            border-color: var(--rosa);
-            background: linear-gradient(135deg, #FFEEF2, #FFF0F5);
+        .score-value {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: #1e3799;
+            margin-bottom: 5px;
         }
         
-        .option-letter {
+        .score-max {
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 20px;
+        }
+        
+        .medals-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .medal {
             width: 50px;
             height: 50px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 700;
-            color: white;
-            flex-shrink: 0;
-            font-size: 1.3rem;
+            font-size: 1.5rem;
+            background-color: #e9ecef;
+            color: #adb5bd;
+            transition: all 0.3s;
         }
         
-        .option-letter.A { background: linear-gradient(45deg, var(--rosa), #E91E63); }
-        .option-letter.B { background: linear-gradient(45deg, var(--azul), #2196F3); }
-        .option-letter.C { background: linear-gradient(45deg, var(--amarelo), #FFC107); }
-        
-        .option-text {
-            color: #333;
-            flex: 1;
-            font-weight: 600;
+        .medal.active {
+            background-color: #ffd700;
+            color: #b8860b;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
         }
         
-        /* BOTÕES DE NAVEGAÇÃO */
-        .nav-buttons {
-            display: flex;
-            justify-content: space-between;
-            padding: 30px;
-            background: linear-gradient(135deg, #F8F9FA, #E8F4F8);
+        .medal.silver.active {
+            background-color: #c0c0c0;
+            color: #808080;
+            box-shadow: 0 0 15px rgba(192, 192, 192, 0.5);
         }
         
-        .nav-btn {
-            padding: 18px 40px;
-            border: none;
-            border-radius: 50px;
-            font-weight: 700;
-            font-size: 1.2rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            transition: var(--transicao);
+        .medal.bronze.active {
+            background-color: #cd7f32;
+            color: #8b4513;
+            box-shadow: 0 0 15px rgba(205, 127, 50, 0.5);
         }
         
-        .nav-btn.prev {
-            background: linear-gradient(90deg, #E0E0E0, #F0F0F0);
-            color: #666;
-        }
-        
-        .nav-btn.next {
-            background: linear-gradient(90deg, var(--azul), var(--roxo));
-            color: white;
-        }
-        
-        .nav-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-        
-        .nav-btn:hover:not(:disabled) {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-        }
-        
-        /* PROGRESSO */
         .progress-container {
-            padding: 20px 30px;
-            background: white;
+            margin-top: 20px;
         }
         
         .progress-bar {
-            width: 100%;
-            height: 20px;
-            background: #E0E0E0;
-            border-radius: 10px;
+            height: 10px;
+            background-color: #e9ecef;
+            border-radius: 5px;
             overflow: hidden;
+            margin-bottom: 10px;
         }
         
         .progress-fill {
             height: 100%;
-            background: linear-gradient(90deg, var(--azul), var(--roxo));
-            border-radius: 10px;
-            transition: width 0.5s ease;
+            background: linear-gradient(90deg, #4CAF50, #8BC34A);
+            width: 0%;
+            transition: width 0.5s;
         }
         
         .progress-text {
-            text-align: center;
-            margin-top: 10px;
-            font-weight: 700;
-            color: var(--azul-escuro);
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            color: #666;
         }
         
-        /* EXPLICAÇÃO */
-        .explanation {
-            background: linear-gradient(135deg, #F9F9F9, #F0F0F0);
-            padding: 25px;
+        .cases-list {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+        
+        .case-item {
+            padding: 12px 15px;
+            margin-bottom: 10px;
+            background-color: white;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border-left: 5px solid #1e3799;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        .case-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .case-item.active {
+            background-color: #e3f2fd;
+            border-left-color: #4CAF50;
+            font-weight: 600;
+        }
+        
+        .case-item.completed {
+            border-left-color: #4CAF50;
+        }
+        
+        .case-item.completed .case-title::after {
+            content: " ✓";
+            color: #4CAF50;
+            font-weight: bold;
+        }
+        
+        .case-number {
+            font-size: 0.8rem;
+            color: #666;
+            margin-bottom: 3px;
+        }
+        
+        .case-title {
+            font-size: 1rem;
+            color: #333;
+        }
+        
+        .main-content {
+            flex-grow: 1;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .case-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e9ecef;
+        }
+        
+        .case-id {
+            font-size: 1.1rem;
+            color: #666;
+            background-color: #f1f3f5;
+            padding: 5px 15px;
             border-radius: 20px;
-            margin: 20px 30px;
-            border-left: 8px solid var(--roxo);
         }
         
-        .explanation-title {
-            font-weight: 700;
-            color: var(--azul-escuro);
+        .case-difficulty {
+            font-size: 1rem;
+            color: #666;
+            font-weight: 600;
+        }
+        
+        .case-scenario {
+            background-color: #f8f9fa;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            line-height: 1.6;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            border-left: 5px solid #1e3799;
+        }
+        
+        .case-scenario h3 {
+            color: #1e3799;
             margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+        
+        .case-question {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 30px;
+            padding: 15px;
+            background-color: #e3f2fd;
+            border-radius: 10px;
+        }
+        
+        .options-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .option {
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 2px solid #e9ecef;
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+        
+        .option:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .option.selected {
+            border-color: #2196F3;
+            background-color: #e3f2fd;
+        }
+        
+        .option.correct {
+            border-color: #4CAF50;
+            background-color: #e8f5e9;
+        }
+        
+        .option.incorrect {
+            border-color: #f44336;
+            background-color: #ffebee;
+        }
+        
+        .option-indicator {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            background-color: #e9ecef;
+            color: #666;
+            flex-shrink: 0;
+        }
+        
+        .option.selected .option-indicator {
+            background-color: #2196F3;
+            color: white;
+        }
+        
+        .option.correct .option-indicator {
+            background-color: #4CAF50;
+            color: white;
+        }
+        
+        .option.incorrect .option-indicator {
+            background-color: #f44336;
+            color: white;
+        }
+        
+        .option-text {
+            flex-grow: 1;
+            font-size: 1.05rem;
+            line-height: 1.5;
+        }
+        
+        .feedback {
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 20px;
+            display: none;
+        }
+        
+        .feedback.correct {
+            background-color: #e8f5e9;
+            border-left: 5px solid #4CAF50;
+            display: block;
+        }
+        
+        .feedback.incorrect {
+            background-color: #ffebee;
+            border-left: 5px solid #f44336;
+            display: block;
+        }
+        
+        .feedback-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .feedback-title i {
+            font-size: 1.5rem;
+        }
+        
+        .feedback.correct .feedback-title {
+            color: #2e7d32;
+        }
+        
+        .feedback.incorrect .feedback-title {
+            color: #c62828;
+        }
+        
+        .feedback-content {
+            line-height: 1.6;
+        }
+        
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px solid #e9ecef;
+        }
+        
+        .btn {
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .btn-prev {
+            background-color: #f8f9fa;
+            color: #666;
+            border: 2px solid #dee2e6;
+        }
+        
+        .btn-prev:hover:not(:disabled) {
+            background-color: #e9ecef;
+        }
+        
+        .btn-next {
+            background-color: #1e3799;
+            color: white;
+        }
+        
+        .btn-next:hover:not(:disabled) {
+            background-color: #0c2461;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(30, 55, 153, 0.4);
+        }
+        
+        .btn-submit {
+            background-color: #4CAF50;
+            color: white;
+        }
+        
+        .btn-submit:hover:not(:disabled) {
+            background-color: #388E3C;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
+        }
+        
+        .results-screen {
+            display: none;
+            text-align: center;
+            padding: 40px 20px;
+        }
+        
+        .results-title {
+            font-size: 2.5rem;
+            color: #1e3799;
+            margin-bottom: 30px;
+        }
+        
+        .final-score {
+            font-size: 5rem;
+            font-weight: 800;
+            color: #1e3799;
+            margin-bottom: 10px;
+        }
+        
+        .final-grade {
+            font-size: 2rem;
+            color: #666;
+            margin-bottom: 40px;
+        }
+        
+        .medals-earned {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 40px 0;
+        }
+        
+        .medal-large {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            background-color: #e9ecef;
+            color: #adb5bd;
+            transition: all 0.5s;
+        }
+        
+        .medal-large.active {
+            transform: scale(1.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .medal-large.gold.active {
+            background: radial-gradient(circle at 30% 30%, #ffd700, #b8860b);
+            color: #fff;
+        }
+        
+        .medal-large.silver.active {
+            background: radial-gradient(circle at 30% 30%, #c0c0c0, #808080);
+            color: #fff;
+        }
+        
+        .medal-large.bronze.active {
+            background: radial-gradient(circle at 30% 30%, #cd7f32, #8b4513);
+            color: #fff;
+        }
+        
+        .medal-label {
+            font-size: 0.9rem;
+            margin-top: 5px;
+            color: #666;
+        }
+        
+        .results-message {
+            font-size: 1.3rem;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 15px;
+        }
+        
+        .btn-restart {
+            background-color: #1e3799;
+            color: white;
+            margin: 20px auto;
+            padding: 15px 40px;
             font-size: 1.2rem;
         }
         
-        /* SEÇÃO DO LIVRO */
-        .book-section {
-            background: linear-gradient(135deg, var(--azul-escuro), #1565C0);
-            color: white;
-            padding: var(--espaco-xl);
-            border-radius: var(--borda-radius);
-            margin: var(--espaco-xl) 0;
+        .btn-restart:hover {
+            background-color: #0c2461;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(30, 55, 153, 0.4);
+        }
+        
+        footer {
             text-align: center;
+            padding: 20px;
+            color: #666;
+            font-size: 0.9rem;
+            border-top: 1px solid #e9ecef;
+            margin-top: 20px;
         }
         
-        .book-btn {
-            display: inline-block;
-            padding: 18px 40px;
-            background: linear-gradient(90deg, var(--amarelo), var(--laranja));
-            color: var(--azul-escuro);
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: 700;
-            font-size: 1.3rem;
-            box-shadow: 0 10px 25px rgba(255, 193, 7, 0.4);
-            transition: var(--transicao);
-            margin-top: var(--espaco-md);
-        }
-        
-        .book-btn:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(255, 193, 7, 0.6);
-        }
-        
-        /* RESPONSIVIDADE */
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 2.2rem;
-            }
-            
-            h2 {
-                font-size: 1.8rem;
-            }
-            
-            .header h1 {
-                font-size: 2.2rem;
-            }
-            
-            .subtitle {
-                font-size: 1.1rem;
-            }
-            
-            .intro-box {
-                padding: var(--espaco-lg);
-            }
-            
-            .gamification {
-                gap: var(--espaco-md);
-            }
-            
-            .counter-box {
-                min-width: 200px;
-                padding: var(--espaco-lg);
-            }
-            
-            .counter-value {
-                font-size: 3.5rem;
-            }
-            
-            .action-buttons {
+        @media (max-width: 992px) {
+            .game-area {
                 flex-direction: column;
-                align-items: center;
             }
             
-            .action-btn {
-                min-width: 250px;
-                padding: 20px 40px;
-            }
-            
-            .question-text {
-                font-size: 1.3rem;
-            }
-            
-            .option {
-                padding: 18px;
-                margin: 12px 20px;
-            }
-            
-            .question-box {
-                padding: 25px;
-                margin: 20px;
-            }
-            
-            .nav-buttons {
-                flex-direction: column;
-                gap: 15px;
-            }
-            
-            .nav-btn {
+            .sidebar {
                 width: 100%;
-                justify-content: center;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .container {
-                padding: 0 var(--espaco-xs);
-            }
-            
-            .counter-box {
-                width: 100%;
-                min-width: auto;
-            }
-            
-            .modal {
-                padding: 10px;
-            }
-            
-            .modal-content {
-                border-radius: 20px;
-            }
-            
-            .question-box {
-                padding: 20px;
-                margin: 15px;
-            }
-            
-            .option {
-                padding: 15px;
-                margin: 10px 15px;
-                font-size: 1.1rem;
-            }
-            
-            .option-letter {
-                width: 40px;
-                height: 40px;
-                font-size: 1.1rem;
+                border-right: none;
+                border-bottom: 3px solid #e9ecef;
             }
         }
     </style>
 </head>
 <body>
-    <!-- HEADER PROFISSIONAL -->
-    <header class="header">
-        <div class="container">
-            <div class="header-content">
-                <h1><i class="fas fa-heartbeat"></i>Avaliação: Responda, aprenda e mude!</h1>
-                <p class="subtitle">Educação: A melhor forma de combate ao Idadismo <span style="text-shadow: 2px 2px 0 rgba(0,0,0,0.3);"></span></p>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-handshake"></i>
+                <div>
+                    <h1>NegociaMaster</h1>
+                    <div class="subtitle">Simulador Interativo de Técnicas de Negociação</div>
+                </div>
             </div>
-        </div>
-    </header>
-
-    <!-- CONTEÚDO PRINCIPAL -->
-    <main class="container">
-        <!-- INTRODUÇÃO COM RELATOS -->
-        <section class="intro-box">
-            <p>Bem-vindo(a) a esta jornada de reflexão sobre o <strong>idadismo</strong> - o preconceito etário que afeta milhões de <strong>pessoas idosas</strong> em nossa sociedade.</p>
-            
-            <div class="linguagem-box">
-                <strong><i class="fas fa-language"></i> Nota sobre Linguagem Inclusiva:</strong> Utilizamos intencionalmente a expressão "pessoa idosa" por ser mais inclusiva e respeitosa. Evitamos termos como "velho" ou diminutivos que reduzem o indivíduo a uma condição ou sugerem fragilidade. Preferimos também: "público 60+", "pessoas maduras", "pessoas longevas".
+            <div class="professor-info">
+                <strong>Professor:</strong> Ricardo de Faria Barros | <strong>Disciplina:</strong> Técnicas de Negociação | <strong>Instituição:</strong> IBMEC | <strong>Data:</strong> Fevereiro de 2026
             </div>
-            
-            <div class="relatos-box">
-                <h3><i class="fas fa-comment-medical"></i> Baseado em Relatos Reais</h3>
-                <p>Estas <strong>41 questões</strong> foram produzidas a partir de relatos que escutei, e escuto, em minha prática clínica e profissional, retratando todas as formas de violência e preconceito contra a <strong>pessoa idosa</strong>.</p>
-                <p>Algumas são sutis, quase imperceptíveis. Outras são explícitas e dolorosas. Todas revelam como o idadismo permeia nossa sociedade.</p>
-            </div>
-            
-            <p>Este não é apenas um teste, mas um convite à reflexão sobre a <span class="highlight">longelescência</span> e um exercício de cidadania aplicada à vida social, buscando o sentido e a dignidade em cada etapa da existência.</p>
-            
-            <div class="quote">
-                "A nova velhice não pede licença, nem favor: ela ocupa a cidade, subverte a ordem reinante, reinventa o tempo e ressignifica a vida: de forma ativa, combativa, consciente e positiva." - Ricardo
-            </div>
-            
-            <p>Complete o teste, descubra seu nível de consciência sobre o idadismo.</p>
-            
-            <!-- AVISO IMPORTANTE -->
-            <div class="aviso">
-                <i class="fas fa-exclamation-circle"></i> IMPORTANTE: É preciso responder a <strong>TODAS as 41 questões</strong> para obter seu resultado completo!
-            </div>
-        </section>
-
-        <!-- GAMIFICAÇÃO -->
-        <section class="gamification">
-            <div class="counter-box">
-                <div class="counter-label">QUESTÕES RESPONDIDAS</div>
-                <div class="counter-value" id="answered-counter">0</div>
-                <div class="counter-label">de 41</div>
-            </div>
-            
-            <div class="counter-box">
-                <div class="counter-label">PONTUAÇÃO</div>
-                <div class="counter-value" id="score-counter">0</div>
-                <div class="counter-label">de 10</div>
-            </div>
-        </section>
-
-        <!-- BOTÕES DE AÇÃO -->
-        <section class="action-buttons">
-            <button id="start-test-btn" class="action-btn start-btn">
-                <i class="fas fa-play-circle"></i> COMEÇAR TESTE
-            </button>
-            
-            <button id="download-questions-btn" class="action-btn download-btn">
-                <i class="fas fa-download"></i> BAIXAR QUESTÕES
-            </button>
-            
-            <button id="view-results-btn" class="action-btn results-btn">
-                <i class="fas fa-chart-bar"></i> VER RESULTADO
-            </button>
-        </section>
-
-        <!-- AVISO DE RESULTADO -->
-        <div style="text-align: center; margin: var(--espaco-lg) 0;">
-            <p id="results-warning" style="color: var(--rosa); display: none;">
-                <i class="fas fa-exclamation-triangle"></i> Você precisa responder a todas as 41 questões primeiro!
-            </p>
-        </div>
-
-        <!-- SEÇÃO DE FEEDBACK -->
-        <section class="feedback-section" id="feedback-section">
-            <h2 class="feedback-title"><i class="fas fa-comments"></i> Fale Diretamente Comigo</h2>
-            
-            <div class="feedback-box">
-                <i class="fas fa-handshake feedback-icon"></i>
-                <h3 style="color: var(--azul-escuro); margin-bottom: var(--espaco-md);">Sua Opinião é Fundamental</h3>
-                
-                <p style="font-size: 1.2rem; margin-bottom: var(--espaco-md);">
-                    Agora que você completou o teste, quero ouvir <strong>diretamente de você</strong>!
-                </p>
-                
-                <p style="margin-bottom: var(--espaco-lg); color: var(--texto-medio);">
-                    Clique no botão abaixo para se comunicar <strong>diretamente comigo</strong>. Você pode:
-                </p>
-                
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: var(--espaco-md); margin-bottom: var(--espaco-xl); text-align: left;">
-                    <div style="background: rgba(255, 193, 7, 0.1); padding: var(--espaco-md); border-radius: 15px;">
-                        <h4 style="color: var(--laranja); margin-bottom: var(--espaco-sm);"><i class="fas fa-lightbulb"></i> Sugerir Temas</h4>
-                        <p>Proponha novos temas para futuras questões do teste</p>
+        </header>
+        
+        <div class="game-area">
+            <div class="sidebar">
+                <div class="score-board">
+                    <div class="score-title">SUA PONTUAÇÃO</div>
+                    <div class="score-value">0</div>
+                    <div class="score-max">de 20 pontos</div>
+                    <div class="progress-container">
+                        <div class="progress-bar">
+                            <div class="progress-fill"></div>
+                        </div>
+                        <div class="progress-text">
+                            <span>0%</span>
+                            <span>Nota: 0.0</span>
+                        </div>
                     </div>
-                    
-                    <div style="background: rgba(33, 150, 243, 0.1); padding: var(--espaco-md); border-radius: 15px;">
-                        <h4 style="color: var(--azul); margin-bottom: var(--espaco-sm);"><i class="fas fa-star"></i> Avaliar a Experiência</h4>
-                        <p>Conte como foi fazer o teste, o que aprendeu, o que mudaria</p>
-                    </div>
-                    
-                    <div style="background: rgba(233, 30, 99, 0.1); padding: var(--espaco-md); border-radius: 15px;">
-                        <h4 style="color: var(--rosa); margin-bottom: var(--espaco-sm);"><i class="fas fa-share-alt"></i> Compartilhar Relatos</h4>
-                        <p>Conte experiências reais que poderiam virar novas questões</p>
+                    <div class="medals-container">
+                        <div class="medal gold" title="Ouro: 18-20 pontos">
+                            <i class="fas fa-medal"></i>
+                        </div>
+                        <div class="medal silver" title="Prata: 14-17 pontos">
+                            <i class="fas fa-medal"></i>
+                        </div>
+                        <div class="medal bronze" title="Bronze: 10-13 pontos">
+                            <i class="fas fa-medal"></i>
+                        </div>
                     </div>
                 </div>
                 
-                <p style="font-size: 1.1rem; margin-bottom: var(--espaco-lg); color: var(--azul-escuro); font-weight: 600;">
-                    <i class="fas fa-envelope-open-text"></i> Eu leio pessoalmente cada mensagem e sua contribuição é essencial para melhorar este trabalho!
-                </p>
-                
-                <a href="https://forms.gle/1mQMewjBpJbccQYp7" target="_blank" class="feedback-btn">
-                    <i class="fas fa-paper-plane"></i> FALAR DIRETAMENTE COM RICARDO
-                </a>
-                
-                <p style="color: var(--texto-claro); margin-top: var(--espaco-md); font-size: 0.9rem;">
-                    <i class="fas fa-clock"></i> Resposta garantida em até 48 horas
-                </p>
-            </div>
-        </section>
-
-        <!-- REDES SOCIAIS DO AUTOR -->
-        <section class="social-section">
-            <h2 class="social-title"><i class="fas fa-user-graduate"></i> Ricardo de Faria Barros - Redes Sociais</h2>
-            
-            <div class="social-grid">
-                <div class="social-card">
-                    <i class="fab fa-youtube social-icon youtube"></i>
-                    <h3>YouTube</h3>
-                    <p>Canal Positiva Atitude com conteúdos sobre longevidade, psicologia positiva e combate ao idadismo</p>
-                    <a href="https://www.youtube.com/@positivaatitude" target="_blank" class="social-btn">
-                        <i class="fab fa-youtube"></i> Visitar Canal
-                    </a>
-                </div>
-                
-                <div class="social-card">
-                    <i class="fas fa-globe social-icon website"></i>
-                    <h3>Site Ânimo DH</h3>
-                    <p>Desenvolvimento Humano, palestras, cursos e consultoria em preparação para aposentadoria</p>
-                    <a href="https://www.animodh.com.br/" target="_blank" class="social-btn">
-                        <i class="fas fa-globe"></i> Visitar Site
-                    </a>
-                </div>
-                
-                <div class="social-card">
-                    <i class="fab fa-tiktok social-icon tiktok"></i>
-                    <h3>TikTok</h3>
-                    <p>Conteúdos rápidos sobre longevidade, psicologia e combate ao idadismo no TikTok</p>
-                    <a href="https://www.tiktok.com/@ricardodefariabarros?is_from_webapp=1&sender_device=pc" target="_blank" class="social-btn">
-                        <i class="fab fa-tiktok"></i> Seguir no TikTok
-                    </a>
-                </div>
-                
-                <div class="social-card">
-                    <i class="fas fa-leaf social-icon plena"></i>
-                    <h3>Plena Longevidade</h3>
-                    <p>Portal dedicado ao envelhecimento ativo, saudável e com propósito</p>
-                    <a href="https://www.plenalongevidade.com.br/" target="_blank" class="social-btn">
-                        <i class="fas fa-leaf"></i> Visitar Portal
-                    </a>
-                </div>
-                
-                <div class="social-card">
-                    <i class="fas fa-envelope social-icon email"></i>
-                    <h3>Contato Profissional</h3>
-                    <p>Para palestras, consultorias, workshops e parcerias</p>
-                    <a href="mailto:ricardo@animodh.com.br" class="social-btn">
-                        <i class="fas fa-envelope"></i> Enviar Email
-                    </a>
+                <div class="cases-list">
+                    <h3 style="margin-bottom: 15px; color: #1e3799;">Casos de Negociação</h3>
+                    <!-- Os casos serão gerados via JavaScript -->
                 </div>
             </div>
             
-            <p style="color: var(--texto-medio); margin-top: var(--espaco-lg);">
-                <strong>Psicólogo Clínico CRP 01/7844 • Especialista em Longevidade • Autor • Palestrante • Professor</strong><br>
-                30 anos de experiência em desenvolvimento humano e preparação para aposentadoria
-            </p>
-        </section>
-
-        <!-- SEÇÃO DO LIVRO -->
-        <section class="book-section">
-            <h2 style="color: var(--amarelo); margin-bottom: var(--espaco-md);">
-                <i class="fas fa-book"></i> Meu Livro: Manual do Bem-Estar na Longelescência
-            </h2>
-            <p style="margin-bottom: var(--espaco-lg); opacity: 0.95; font-size: 1.2rem;">
-                dos 50 aos 100+ • Inspirado no Vento Aracati e Joyspan
-            </p>
-            <a href="https://a.co/d/0hgRnva8" target="_blank" class="book-btn">
-                <i class="fas fa-shopping-cart"></i> COMPRAR NA AMAZON
-            </a>
-        </section>
-    </main>
-
-    <!-- MODAL DE QUESTÕES -->
-    <div class="modal" id="questionModal">
-        <div class="modal-content">
-            <!-- Gerado por JavaScript -->
+            <div class="main-content">
+                <div class="case-header">
+                    <div class="case-id">Caso #<span id="case-number">1</span> de 20</div>
+                    <div class="case-difficulty">Dificuldade: <span id="difficulty">Média</span></div>
+                </div>
+                
+                <div class="case-scenario">
+                    <h3>Situação de Negociação</h3>
+                    <div id="scenario-text">Carregando cenário...</div>
+                </div>
+                
+                <div class="case-question" id="question-text">Carregando pergunta...</div>
+                
+                <div class="options-container" id="options-container">
+                    <!-- As opções serão geradas via JavaScript -->
+                </div>
+                
+                <div class="feedback" id="feedback">
+                    <div class="feedback-title">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Resposta Correta!</span>
+                    </div>
+                    <div class="feedback-content" id="feedback-text">
+                        Explicação da resposta correta será exibida aqui.
+                    </div>
+                </div>
+                
+                <div class="navigation">
+                    <button class="btn btn-prev" id="prev-btn" disabled>
+                        <i class="fas fa-arrow-left"></i> Anterior
+                    </button>
+                    <button class="btn btn-next" id="next-btn">
+                        Próximo <i class="fas fa-arrow-right"></i>
+                    </button>
+                    <button class="btn btn-submit" id="submit-btn" style="display: none;">
+                        <i class="fas fa-paper-plane"></i> Enviar Resposta
+                    </button>
+                </div>
+            </div>
         </div>
-    </div>
-
-    <!-- MODAL DE RESULTADOS -->
-    <div class="modal" id="resultsModal">
-        <div class="modal-content">
-            <!-- Gerado por JavaScript -->
+        
+        <div class="results-screen" id="results-screen">
+            <h2 class="results-title">Resultados Finais</h2>
+            <div class="final-score" id="final-score">0</div>
+            <div class="final-grade" id="final-grade">Nota: 0.0</div>
+            
+            <div class="medals-earned">
+                <div class="medal-large gold" id="gold-medal-large">
+                    <i class="fas fa-medal"></i>
+                    <div class="medal-label">Ouro</div>
+                </div>
+                <div class="medal-large silver" id="silver-medal-large">
+                    <i class="fas fa-medal"></i>
+                    <div class="medal-label">Prata</div>
+                </div>
+                <div class="medal-large bronze" id="bronze-medal-large">
+                    <i class="fas fa-medal"></i>
+                    <div class="medal-label">Bronze</div>
+                </div>
+            </div>
+            
+            <div class="results-message" id="results-message">
+                Parabéns por completar o simulador! Suas habilidades de negociação estão em desenvolvimento.
+            </div>
+            
+            <button class="btn btn-restart" id="restart-btn">
+                <i class="fas fa-redo"></i> Reiniciar Simulador
+            </button>
         </div>
+        
+        <footer>
+            <p>Desenvolvido para a disciplina Técnicas de Negociação - IBMEC - Fevereiro de 2026</p>
+            <p>© Professor Ricardo de Faria Barros - Todos os direitos reservados</p>
+        </footer>
     </div>
 
     <script>
-        // DADOS DAS 41 QUESTÕES EM ORDEM SEQUENCIAL (ATUALIZADAS PARA LINGUAGEM INCLUSIVA)
-        const questions = [
-            // QUESTÕES EXISTENTES 1-36 (ATUALIZADAS)
+        // Dados dos casos de negociação
+        const negotiationCases = [
             {
                 id: 1,
-                text: "Você vê um casal de pessoas idosas (80 anos) se beijando apaixonadamente em público. Qual seu pensamento?",
+                scenario: "Você está negociando um contrato de prestação de serviços com uma nova empresa cliente. O cliente pediu um desconto de 20% no valor original, alegando que fará um contrato de longo prazo. Você sabe que seu preço já é competitivo no mercado.",
+                question: "Qual a melhor abordagem inicial nesta situação?",
                 options: [
-                    { letter: "A", text: "\"Que fofinhos, parecem duas crianças brincando de namorar!\"" },
-                    { letter: "B", text: "\"Nessa idade? Que coisa desnecessária, deveriam ser mais discretos.\"" },
-                    { letter: "C", text: "\"Que bom ver que o afeto e o desejo permanecem vivos em todas as etapas da vida.\"" }
+                    {
+                        text: "Recusar imediatamente o desconto, explicando que seu preço já é justo e competitivo.",
+                        correct: false,
+                        feedback: "Recusar imediatamente pode fechar portas para negociação. É melhor explorar primeiro os interesses do cliente."
+                    },
+                    {
+                        text: "Concordar com o desconto para garantir o contrato de longo prazo, mesmo afetando sua margem.",
+                        correct: false,
+                        feedback: "Ceder sem contrapartida reduz seu poder e margem. É importante buscar algo em troca."
+                    },
+                    {
+                        text: "Explorar o que o cliente entende por 'longo prazo' e buscar outras variáveis além do preço (formas de pagamento, escopo, etc.).",
+                        correct: true,
+                        feedback: "CORRETO! Antes de discutir preço, explore outras variáveis e entenda exatamente o que o cliente oferece em troca. Isso permite criar valor mutuamente."
+                    }
                 ],
-                correct: "C",
-                explanation: "A letra A infantiliza a pessoa idosa (vê-la como criança retira sua maturidade). A letra B é preconceito puro (etiquetar o afeto como 'impróprio' pela idade)."
+                difficulty: "Média"
             },
             {
                 id: 2,
-                text: "Um homem de 75 anos comenta que está usando aplicativos de relacionamento. Você responde:",
+                scenario: "Durante uma negociação salarial, seu chefe diz que não há orçamento para aumentos este ano, mas reconhece seu bom desempenho.",
+                question: "Como você pode criar valor nesta negociação aparentemente travada?",
                 options: [
-                    { letter: "A", text: "\"Cuidado para não cair em golpe, o senhor não tem mais idade para essas aventuras.\"" },
-                    { letter: "B", text: "\"Isso é falta de ocupação, vá cuidar dos seus netos.\"" },
-                    { letter: "C", text: "\"Boa sorte! É ótimo buscar novas conexões e companhia em qualquer idade.\"" }
+                    {
+                        text: "Aceitar a situação e esperar pelo próximo ano, demonstrando compreensão.",
+                        correct: false,
+                        feedback: "Aceitar sem explorar alternativas perde oportunidades de criar valor não-monetário."
+                    },
+                    {
+                        text: "Ameaçar procurar outro emprego se não houver aumento, forçando a decisão.",
+                        correct: false,
+                        feedback: "Ameaças geralmente prejudicam relacionamentos e fecham portas para soluções criativas."
+                    },
+                    {
+                        text: "Propor benefícios não-monetários: flexibilidade de horário, treinamentos, participação em projetos especiais ou bônus por metas.",
+                        correct: true,
+                        feedback: "CORRETO! Quando o orçamento é limitado, benefícios não-monetários podem criar valor para ambas as partes sem impactar o caixa imediato."
+                    }
                 ],
-                correct: "C",
-                explanation: "A A usa o medo para limitar a autonomia. A B reduz a vida da pessoa idosa à utilidade familiar (cuidar de netos), negando seu direito ao prazer e à companhia."
+                difficulty: "Fácil"
             },
             {
                 id: 3,
-                text: "Sobre o uso de preservativos e saúde sexual na longevidade:",
+                scenario: "Você está comprando um carro usado. O vendedor pede R$ 45.000, mas você pesquisou e sabe que o valor de mercado é entre R$ 38.000 e R$ 42.000.",
+                question: "Qual a melhor estratégia para iniciar a negociação?",
                 options: [
-                    { letter: "A", text: "\"É um assunto que nem deveria ser discutido, é constrangedor para a pessoa idosa.\"" },
-                    { letter: "B", text: "\"É essencial, pois ISTs não escolhem idade e a vida sexual nessa fase é ativa.\"" },
-                    { letter: "C", text: "\"Desnecessário, pois o risco de gravidez já não existe.\"" }
+                    {
+                        text: "Oferecer R$ 35.000 para ter margem de barganha, mesmo sabendo que é baixo demais.",
+                        correct: false,
+                        feedback: "Ofertas muito baixas podem ofender o vendedor e prejudicar a credibilidade."
+                    },
+                    {
+                        text: "Perguntar como ele chegou no valor de R$ 45.000 e apresentar sua pesquisa de mercado.",
+                        correct: true,
+                        feedback: "CORRETO! Iniciar com perguntas e dados objetivos estabelece uma negociação baseada em fatos, não em posições arbitrárias."
+                    },
+                    {
+                        text: "Aceitar negociar a partir dos R$ 45.000, tentando chegar em R$ 42.000.",
+                        correct: false,
+                        feedback: "Começar da posição do vendedor enfraquece sua própria posição. É melhor estabelecer uma âncora baseada em dados."
+                    }
                 ],
-                correct: "B",
-                explanation: "A A silencia a saúde da pessoa idosa por tabu. A C ignora que camisinha previne doenças, não apenas gravidez, e pressupõe que não há sexo."
+                difficulty: "Média"
             },
             {
                 id: 4,
-                text: "Uma mulher de 70 anos aparece de minissaia e com uma tatuagem nova. Sua reação é:",
+                scenario: "Em uma negociação internacional, a contraparte de outra cultura parece concordar com tudo, mas depois não cumpre o combinado.",
+                question: "O que provavelmente aconteceu e como evitar?",
                 options: [
-                    { letter: "A", text: "\"Ela está tendo uma crise de identidade, quer parecer ter 20 anos.\"" },
-                    { letter: "B", text: "\"Corajosa, mas está passando vergonha com essa roupa.\"" },
-                    { letter: "C", text: "\"Estilo e liberdade corporal não têm prazo de validade.\"" }
+                    {
+                        text: "Eles estão agindo de má-fé e você deve confrontá-los diretamente.",
+                        correct: false,
+                        feedback: "Confronto direto pode piorar a situação, especialmente sem entender diferenças culturais."
+                    },
+                    {
+                        text: "Em algumas culturas, dizer 'sim' pode significar 'estou ouvindo', não concordância. Deve-se buscar confirmação por escrito e verificar entendimento mútuo.",
+                        correct: true,
+                        feedback: "CORRETO! Diferenças culturais na comunicação são comuns. Buscar confirmação explícita e documentar acordos previne mal-entendidos."
+                    },
+                    {
+                        text: "Você deve aceitar que negociações internacionais sempre têm esses riscos e seguir em frente.",
+                        correct: false,
+                        feedback: "Ignorar diferenças culturais leva a repetição de erros. É preciso adaptar a abordagem."
+                    }
                 ],
-                correct: "C",
-                explanation: "Ambas impõem um 'uniforme' para pessoas maduras. A ideia de que a pessoa idosa deve se vestir para esconder o corpo ou a idade é uma forma de controle social."
+                difficulty: "Difícil"
             },
             {
                 id: 5,
-                text: "Ao ver uma pessoa idosa praticando paraquedismo ou surf, você pensa:",
+                scenario: "Você descobriu que tem um BATNA (Melhor Alternativa) muito forte: outra empresa ofereceu uma proposta 20% melhor.",
+                question: "Como usar essa informação estrategicamente?",
                 options: [
-                    { letter: "A", text: "\"Deveria estar fazendo hidroginástica, que é mais seguro para a idade.\"" },
-                    { letter: "B", text: "\"Exemplo de vitalidade, o limite é o que o corpo e a mente permitem.\"" },
-                    { letter: "C", text: "\"Está querendo acelerar o encontro com o Criador.\"" }
+                    {
+                        text: "Mostrar imediatamente a proposta rival para forçar uma contraproposta melhor.",
+                        correct: false,
+                        feedback: "Revelar seu BATNA muito cedo pode fazer a outra parte desistir ou reduzir sua flexibilidade."
+                    },
+                    {
+                        text: "Manter em segredo e usar apenas como referência interna para saber seu ponto de reserva.",
+                        correct: false,
+                        feedback: "Não usar uma vantagem estratégica é subutilizar informações valiosas."
+                    },
+                    {
+                        text: "Usar indiretamente, mencionando que tem 'outras opções interessantes' sem dar detalhes, enquanto busca melhorias na proposta atual.",
+                        correct: true,
+                        feedback: "CORRETO! Sinalizar que tem alternativas sem revelar detalhes mantém pressão positiva e permite negociar de forma mais confiante."
+                    }
                 ],
-                correct: "B",
-                explanation: "A A limita a pessoa idosa ao estereótipo da fragilidade. A C usa um 'humor' mórbido que desqualifica a busca por adrenalina e sentido na vida."
+                difficulty: "Média"
             },
             {
                 id: 6,
-                text: "Você ouve uma pessoa idosa dominando tecnologias de ponta e usando gírias atuais. Você:",
+                scenario: "A contraparte faz uma primeira oferta absurdamente baixa em uma licitação.",
+                question: "Como reagir profissionalmente?",
                 options: [
-                    { letter: "A", text: "\"Acha ridículo, parece que está forçando a barra para ser jovem.\"" },
-                    { letter: "B", text: "\"Fica surpreso, como se ela tivesse feito um milagre acadêmico.\"" },
-                    { letter: "C", text: "\"Acha natural, pois aprender é uma característica humana, não cronológica.\"" }
+                    {
+                        text: "Rir da proposta e desistir da negociação imediatamente.",
+                        correct: false,
+                        feedback: "Reações emocionais fecham oportunidades. Mesmo ofertas ruins podem ser ponto de partida."
+                    },
+                    {
+                        text: "Contrapor com uma oferta igualmente absurda para o outro lado, para 'nivelar' a negociação.",
+                        correct: false,
+                        feedback: "Jogos de âncora extremas raramente levam a bons resultados e criam clima adversário."
+                    },
+                    {
+                        text: "Ignorar a oferta inicial e perguntar sobre os critérios e necessidades por trás da proposta, refazendo a âncora.",
+                        correct: true,
+                        feedback: "CORRETO! Não se prender a âncoras irracionais. Redirecionar a conversa para critérios objetivos redefine a negociação."
+                    }
                 ],
-                correct: "C",
-                explanation: "A A julga a atualização como falsidade. A B é o 'idadismo benevolente': tratar o básico (aprender) como algo extraordinário apenas por causa da idade."
+                difficulty: "Média"
             },
             {
                 id: 7,
-                text: "Os filhos vendem a casa do pai de 78 anos para ele morar perto deles, sem consultá-lo profundamente.",
+                scenario: "Durante uma negociação tensa, a contraparte começa a gritar e fazer acusações pessoais.",
+                question: "Qual a melhor resposta para retomar o controle da situação?",
                 options: [
-                    { letter: "A", text: "\"Um ato de amor e proteção para que ele não fique só.\"" },
-                    { letter: "B", text: "\"Uma violação da autonomia e do direito de escolha do pai.\"" },
-                    { letter: "C", text: "\"Prático, afinal, pessoas idosas não sabem mais administrar imóveis.\"" }
+                    {
+                        text: "Gritar de volta para mostrar que não intimida.",
+                        correct: false,
+                        feedback: "Reagir com a mesma emoção escalaria o conflito e prejudicaria qualquer chance de acordo."
+                    },
+                    {
+                        text: "Ficar calado até que ele se acalme, demonstrando paciência.",
+                        correct: false,
+                        feedback: "Passividade pode ser interpretada como fraqueza ou concordância tácita."
+                    },
+                    {
+                        text: "Propor uma pausa na reunião e, quando retomar, focar nos interesses (não nas pessoas) usando linguagem neutra.",
+                        correct: true,
+                        feedback: "CORRETO! Separar as pessoas do problema é princípio fundamental. Uma pausa permite desescalar emoções e retomar com foco nos interesses."
+                    }
                 ],
-                correct: "B",
-                explanation: "A A mascara o autoritarismo com 'amor'. A C é um preconceito cognitivo, assumindo que idade é igual a incapacidade mental."
+                difficulty: "Difícil"
             },
             {
                 id: 8,
-                text: "A família usa a avó como babá e motorista fixa dos netos sem perguntar seus planos.",
+                scenario: "Você percebe que a outra parte está mentindo sobre uma informação importante.",
+                question: "Como abordar essa situação sem destruir a relação?",
                 options: [
-                    { letter: "A", text: "\"Uma forma de manter a avó ativa e útil na família.\"" },
-                    { letter: "B", text: "\"Idadismo funcional: ver a pessoa idosa apenas como um prestador de serviços gratuito.\"" },
-                    { letter: "C", text: "\"O dever natural de todo avô e avó.\"" }
+                    {
+                        text: "Confrontar diretamente, chamando-a de mentirosa para forçar a verdade.",
+                        correct: false,
+                        feedback: "Acusações diretas colocam a outra parte na defensiva e dificultam a solução."
+                    },
+                    {
+                        text: "Ignorar a mentira e continuar a negociação como se nada tivesse acontecido.",
+                        correct: false,
+                        feedback: "Ignorar desonestidade pode levar a acordos ruins e perda de credibilidade futura."
+                    },
+                    {
+                        text: "Fazer perguntas que exponham a inconsistência sem acusar, dando oportunidade para correção.",
+                        correct: true,
+                        feedback: "CORRETO! Perguntas estratégicas permitem que a outra parte salve a face enquanto corrige a informação, preservando a relação."
+                    }
                 ],
-                correct: "B",
-                explanation: "Ambas anulam a identidade da mulher para além do papel de 'avó'. Ela tem agenda, desejos e o direito de dizer 'não'."
+                difficulty: "Difícil"
             },
             {
                 id: 9,
-                text: "\"Pai, o senhor não precisa mais usar cartão de crédito, eu administro sua aposentadoria\". Isso é:",
+                scenario: "Você precisa fechar um acordo hoje, mas a contraparte sabe disso e está se aproveitando.",
+                question: "Como reduzir essa desvantagem tática?",
                 options: [
-                    { letter: "A", text: "\"Uma forma de violência patrimonial e quebra de autonomia.\"" },
-                    { letter: "B", text: "\"Um auxílio administrativo que todo filho deve prestar.\"" },
-                    { letter: "C", text: "\"Uma maneira de evitar que a pessoa idosa gaste com bobagens.\"" }
+                    {
+                        text: "Mentir dizendo que tem mais tempo do que realmente tem.",
+                        correct: false,
+                        feedback: "Mentiras descobertas destroem credibilidade e podem inviabilizar futuras negociações."
+                    },
+                    {
+                        text: "Aceitar condições piores, já que não há alternativa.",
+                        correct: false,
+                        feedback: "Aceitar um mau acordo é pior do que não fechar acordo. Sempre há alternativas a explorar."
+                    },
+                    {
+                        text: "Reconhecer o prazo, mas focar em como um acordo rápido também beneficia a outra parte, criando urgência compartilhada.",
+                        correct: true,
+                        feedback: "CORRETO! Transformar uma fraqueza em oportunidade mútua. Mostrar os benefícios de fechar hoje para AMBAS as partes reequilibra o poder."
+                    }
                 ],
-                correct: "A",
-                explanation: "Se a pessoa idosa é lúcida, retirar seu poder financeiro é uma forma de castração social e crime previsto no Estatuto da Pessoa Idosa."
+                difficulty: "Média"
             },
             {
                 id: 10,
-                text: "Os filhos decidem colocar grades nas janelas e esconder as chaves do carro do pai 'pelo bem dele':",
+                scenario: "A negociação está parada em um ponto específico: nenhum lado quer ceder no preço.",
+                question: "Como destravar essa situação?",
                 options: [
-                    { letter: "A", text: "\"Proteção extrema e amorosa.\"" },
-                    { letter: "B", text: "\"Cárcere privado e violação da autonomia individual.\"" },
-                    { letter: "C", text: "\"Prevenção de acidentes necessária para qualquer pessoa nessa idade.\"" }
+                    {
+                        text: "Insistir no mesmo ponto até que um lado ceda por cansaço.",
+                        correct: false,
+                        feedback: "Batalhas de desgaste deterioram relações e raramente produzem bons resultados."
+                    },
+                    {
+                        text: "Ameaçar terminar a negociação se não houver movimento.",
+                        correct: false,
+                        feedback: "Ultimatos muitas vezes levam ao fim da negociação sem acordo, perdendo-se valor potencial."
+                    },
+                    {
+                        text: "Ampliar a agenda: incluir outras variáveis como prazos, garantias, formas de pagamento ou itens adicionais.",
+                        correct: true,
+                        feedback: "CORRETO! Quando há impasse em uma variável, expandir o leque de questões cria novas possibilidades de troca de valor."
+                    }
                 ],
-                correct: "B",
-                explanation: "Retirar a liberdade de ir e vir sem um diagnóstico real de incapacidade é uma agressão severa à dignidade humana."
+                difficulty: "Média"
             },
             {
                 id: 11,
-                text: "Um filho não visita a mãe há meses, pois 'ela tem comida, remédios e uma TV ótima'. Isso é:",
+                scenario: "Você está em uma negociação coletiva com um sindicato. Há 15 pessoas do outro lado, cada uma com demandas diferentes.",
+                question: "Como estruturar essa negociação complexa?",
                 options: [
-                    { letter: "A", text: "\"Solidão funcional e abandono afetivo estrutural.\"" },
-                    { letter: "B", text: "\"Respeito ao espaço e à privacidade da pessoa idosa.\"" },
-                    { letter: "C", text: "\"Confiança na autonomia da mãe.\"" }
+                    {
+                        text: "Escolher o líder mais razoável e negociar apenas com ele, ignorando os outros.",
+                        correct: false,
+                        feedback: "Ignorar partes interessadas pode criar resistência e sabotagem do acordo posteriormente."
+                    },
+                    {
+                        text: "Pedir que eles elejam 3 representantes para negociar em nome do grupo.",
+                        correct: true,
+                        feedback: "CORRETO! Negociações com múltiplas partes exigem estruturação. Representantes legitimados simplificam o processo enquanto mantém a representatividade."
+                    },
+                    {
+                        text: "Tentar negociar individualmente com cada pessoa para dividir o grupo.",
+                        correct: false,
+                        feedback: "Dividir o grupo pode ser visto como tática manipuladora e gerar desconfiança."
+                    }
                 ],
-                correct: "A",
-                explanation: "O bem-estar material não supre a necessidade de pertencimento e conexão. Condenar a pessoa idosa à TV é condená-la à morte social."
+                difficulty: "Difícil"
             },
             {
                 id: 12,
-                text: "Atendimento preferencial que funciona no balcão, mas o serviço demora o dobro depois:",
+                scenario: "A contraparte faz uma oferta muito boa, quase suspeitosamente boa.",
+                question: "Qual a atitude mais prudente?",
                 options: [
-                    { letter: "A", text: "\"Um azar do dia, acontece com todo mundo.\"" },
-                    { letter: "B", text: "\"Um 'respeito de fachada' que não se traduz em eficiência estrutural.\"" },
-                    { letter: "C", text: "\"A pessoa idosa tem mais tempo mesmo, então pode esperar um pouco mais.\"" }
+                    {
+                        text: "Aceitar imediatamente antes que mudem de ideia.",
+                        correct: false,
+                        feedback: "Aceitar ofertas sem entender completamente os termos pode esconder armadilhas ou mal-entendidos."
+                    },
+                    {
+                        text: "Desconfiar e rejeitar, pois 'quando a esmola é demais, o santo desconfia'.",
+                        correct: false,
+                        feedback: "Rejeitar sem investigar pode perder oportunidades genuinamente boas."
+                    },
+                    {
+                        text: "Agradecer e pedir tempo para analisar a proposta detalhadamente, verificando se há 'letras miúdas' ou entendimentos diferentes.",
+                        correct: true,
+                        feedback: "CORRETO! Boas ofertas merecem consideração cuidadosa, não impulsiva. Tempo para análise previne surpresas desagradáveis."
+                    }
                 ],
-                correct: "B",
-                explanation: "A C é um desrespeito ao tempo de vida da pessoa idosa. A A ignora que a lei exige prioridade em todas as etapas do fluxo, não só na fila."
+                difficulty: "Fácil"
             },
             {
                 id: 13,
-                text: "Editais que proíbem pessoas acima de uma certa idade de participarem de projetos:",
+                scenario: "Você percebe que cometeu um erro grave: ofereceu um preço muito baixo e agora está perdendo dinheiro.",
+                question: "Como corrigir isso sem perder credibilidade?",
                 options: [
-                    { letter: "A", text: "\"Normais, para garantir que o investimento no profissional dure mais.\"" },
-                    { letter: "B", text: "\"Violência estrutural e puro idadismo institucional.\"" },
-                    { letter: "C", text: "\"Uma forma de dar oportunidade aos mais jovens, que precisam mais.\"" }
+                    {
+                        text: "Honrar o erro e cumprir o preço oferecido, aprendendo para a próxima.",
+                        correct: false,
+                        feedback: "Honrar erros custosos pode ser financeiramente insustentável, especialmente em negócios."
+                    },
+                    {
+                        text: "Inventar uma desculpa para cancelar o acordo.",
+                        correct: false,
+                        feedback: "Desculpas inventadas, quando descobertas, destroem credibilidade permanentemente."
+                    },
+                    {
+                        text: "Explicar honestamente o erro, mostrar os números reais e renegociar com transparência.",
+                        correct: true,
+                        feedback: "CORRETO! Transparência sobre erros, quando acompanhada de dados e proposta de solução, geralmente gera respeito e abertura para renegociação."
+                    }
                 ],
-                correct: "B",
-                explanation: "O Estado não pode determinar quando o talento ou a utilidade de um cidadão expira. Isso é discriminação direta."
+                difficulty: "Média"
             },
             {
                 id: 14,
-                text: "O uso de termos como 'vovozinho' ou 'velhinho' por desconhecidos é:",
+                scenario: "A negociação está indo bem, mas você sente que pode conseguir mais do que planejava inicialmente.",
+                question: "Como proceder?",
                 options: [
-                    { letter: "A", text: "\"Uma forma carinhosa e respeitosa de tratamento.\"" },
-                    { letter: "B", text: "\"Infantilização e apagamento da identidade individual da pessoa.\"" },
-                    { letter: "C", text: "\"Necessário para que elas se sintam acolhidas.\"" }
+                    {
+                        text: "Aproveitar a vantagem e exigir muito mais, maximizando o ganho.",
+                        correct: false,
+                        feedback: "Ganância excessiva pode fazer a outra parte reconsiderar todo o acordo e prejudicar relações futuras."
+                    },
+                    {
+                        text: "Contentar-se com o que planejava e fechar o acordo rapidamente.",
+                        correct: false,
+                        feedback: "Deixar valor na mesa não é estratégico, desde que feito de forma ética e relacional."
+                    },
+                    {
+                        text: "Explorar cuidadosamente se há espaço para melhorias adicionais, mantendo relação ganha-ganha.",
+                        correct: true,
+                        feedback: "CORRETO! Negociação é criação de valor. Se há espaço para mais valor para ambos, vale explorar, mantendo sempre o equilíbrio relacional."
+                    }
                 ],
-                correct: "B",
-                explanation: "Chamar um estranho de 'vovô' retira dele seu nome e sua história. É tratá-lo como uma categoria fofa, não como um cidadão."
+                difficulty: "Fácil"
             },
             {
                 id: 15,
-                text: "Ao ver uma pessoa idosa pobre no transporte público, a reação comum é:",
+                scenario: "A contraparte está usando táticas agressivas: interrompendo, fazendo exigências absurdas e usando linguagem corporal intimidatória.",
+                question: "Como neutralizar essas táticas?",
                 options: [
-                    { letter: "A", text: "\"Oferecer o lugar e perguntar se ela precisa de ajuda.\"" },
-                    { letter: "B", text: "\"Torná-la invisível, ignorando suas dificuldades de acesso.\"" },
-                    { letter: "C", text: "\"Achar que ela está passeando e atrapalhando quem trabalha.\"" }
+                    {
+                        text: "Responder com as mesmas táticas para mostrar que não intimida.",
+                        correct: false,
+                        feedback: "Espelhar comportamento agressivo apenas escalaria o conflito."
+                    },
+                    {
+                        text: "Ceder em alguns pontos para acalmar o ambiente.",
+                        correct: false,
+                        feedback: "Ceder sob pressão ensina à contraparte que táticas agressivas funcionam, incentivando repetição."
+                    },
+                    {
+                        text: "Nomear a tática educadamente ('Percebo que estamos com pressão...') e redirecionar para os interesses substanciais.",
+                        correct: true,
+                        feedback: "CORRETO! Nomear o jogo tático sem acusar, seguido de redirecionamento para o conteúdo, desarma táticas agressivas de forma profissional."
+                    }
                 ],
-                correct: "B",
-                explanation: "A C é a crueldade do idadismo de classe: achar que a pessoa idosa pobre não tem o direito de circular pela cidade no horário que precisar."
+                difficulty: "Difícil"
             },
             {
                 id: 16,
-                text: "Na TV, a pessoa idosa é quase sempre retratada como 'ranzinza' ou 'esquecida'. O impacto é:",
+                scenario: "Você está negociando por telefone e não pode ver a linguagem corporal da contraparte.",
+                question: "Que adaptações são importantes nesse formato?",
                 options: [
-                    { letter: "A", text: "\"Apenas humor, não deve ser levado a sério.\"" },
-                    { letter: "B", text: "\"A manutenção de estereótipos que moldam como a sociedade trata pessoas idosas.\"" },
-                    { letter: "C", text: "\"Realista, pois a maioria das pessoas idosas é assim mesmo.\"" }
+                    {
+                        text: "Falar mais rápido para cobrir a falta de sinais visuais.",
+                        correct: false,
+                        feedback: "Falar mais rápido pode causar mal-entendidos e parecer ansioso."
+                    },
+                    {
+                        text: "Parafrasear e resumir com mais frequência para garantir entendimento mútuo.",
+                        correct: true,
+                        feedback: "CORRETO! Na ausência de comunicação não-verbal, verificação verbal constante é essencial para alinhamento."
+                    },
+                    {
+                        text: "Confiar totalmente no que é dito, sem desconfiar de possíveis omissões.",
+                        correct: false,
+                        feedback: "A falta de sinais não-verbais exige MAIS verificação, não menos."
+                    }
                 ],
-                correct: "B",
-                explanation: "A mídia cria a realidade. Se só vemos pessoas idosas limitadas na tela, passamos a acreditar que a maturidade é apenas perda e rabugice."
+                difficulty: "Média"
             },
             {
                 id: 17,
-                text: "As imagens de bancos de dados (senhor de bengala, senhora tricotando):",
+                scenario: "A outra parte pede uma concessão 'pequena' no final da negociação, quando tudo parece acertado.",
+                question: "Como lidar com esse 'apêndice' de última hora?",
                 options: [
-                    { letter: "A", text: "\"São a melhor forma de representar a pessoa idosa para todos entenderem.\"" },
-                    { letter: "B", text: "\"Estão ultrapassadas e não refletem a diversidade da longelescência.\"" },
-                    { letter: "C", text: "\"Devem ser mantidas por tradição cultural.\"" }
+                    {
+                        text: "Recusar firmemente, pois o acordo já estava fechado.",
+                        correct: false,
+                        feedback: "Recusas firmes a pequenos pedidos podem parecer inflexíveis e prejudicar o clima de fechamento."
+                    },
+                    {
+                        text: "Ceder imediatamente para não arriscar o acordo todo.",
+                        correct: false,
+                        feedback: "Ceder sempre a pedidos de última hora ensina que essa tática funciona, incentivando repetição."
+                    },
+                    {
+                        text: "Tratar como nova negociação: pedir algo em troca, mesmo que simbólico.",
+                        correct: true,
+                        feedback: "CORRETO! Nunca ceda de graça, mesmo em pedidos pequenos de última hora. Exigir contrapartida, mesmo simbólica, mantém o equilíbrio e desincentiva abusos."
+                    }
                 ],
-                correct: "B",
-                explanation: "Essas imagens reforçam o 'antigo normal'. A nova pessoa longeva viaja, empreende e usa tecnologia."
+                difficulty: "Média"
             },
             {
                 id: 18,
-                text: "Linguagem inacessível (letras minúsculas, termos em inglês sem explicação) é:",
+                scenario: "Você precisa negociar com alguém com quem teve um conflito pessoal no passado.",
+                question: "Como preparar-se para essa situação delicada?",
                 options: [
-                    { letter: "A", text: "\"Uma falha de design sem intenção.\"" },
-                    { letter: "B", text: "\"Uma forma de exclusão digital e social do público maduro.\"" },
-                    { letter: "C", text: "\"Culpa da pessoa idosa que não se esforça para aprender.\"" }
+                    {
+                        text: "Ignorar o passado e agir como se fosse a primeira interação.",
+                        correct: false,
+                        feedback: "Ignorar história compartilhada é artificial e pode deixar tensões não resolvidas sob a superfície."
+                    },
+                    {
+                        text: "Começar a negociação abordando diretamente o conflito passado para 'limpar o ar'.",
+                        correct: true,
+                        feedback: "CORRETO! Abordar o elefante na sala de forma profissional e construtiva previne que questões pessoais contaminem a negociação atual."
+                    },
+                    {
+                        text: "Adotar posição dura desde o início para mostrar que não será afetado pelo passado.",
+                        correct: false,
+                        feedback: "Posição dura inicial pode ser interpretada como vingança pelo passado, piorando a situação."
+                    }
                 ],
-                correct: "B",
-                explanation: "O design que não inclui todas as idades é um design excludente. Acessibilidade é um direito, não um privilégio."
+                difficulty: "Difícil"
             },
             {
                 id: 19,
-                text: "Uma pessoa idosa decide abrir uma startup aos 65 anos. O mercado financeiro geralmente:",
+                scenario: "Durante uma longa negociação, você percebe que está ficando cansado e cometendo erros de julgamento.",
+                question: "Qual a melhor ação?",
                 options: [
-                    { letter: "A", text: "\"Dá todo apoio pela experiência acumulada.\"" },
-                    { letter: "B", text: "\"Dificulta o crédito por considerar o risco de 'sobrevida' do negócio.\"" },
-                    { letter: "C", text: "\"Ignora, achando que é apenas um passatempo de aposentado.\"" }
+                    {
+                        text: "Continuar, pois parar seria sinal de fraqueza.",
+                        correct: false,
+                        feedback: "Negociar com fadiga leva a decisões ruins que podem ter consequências duradouras."
+                    },
+                    {
+                        text: "Propor uma pausa, reconhecendo a necessidade de descanso para decisões de qualidade.",
+                        correct: true,
+                        feedback: "CORRETO! Fadiga prejudica o julgamento. Pausas estratégicas são sinal de profissionalismo, não fraqueza."
+                    },
+                    {
+                        text: "Delegar para um colega que está mais descansado continuar no seu lugar.",
+                        correct: false,
+                        feedback: "Trocar negociadores no meio do processo pode causar descontinuidade e perda de rapport."
+                    }
                 ],
-                correct: "B",
-                explanation: "O mercado ignora que o empreendedorismo sênior tem maior taxa de sucesso. Tratar como 'passatempo' é desqualificar décadas de expertise."
+                difficulty: "Fácil"
             },
             {
                 id: 20,
-                text: "No currículo de uma pessoa de 62 anos, o descarte imediato ocorre por:",
+                scenario: "Você acaba de fechar um acordo que parece bom no papel, mas tem uma sensação ruim sobre como será a implementação.",
+                question: "O que fazer antes de considerar a negociação finalizada?",
                 options: [
-                    { letter: "A", text: "\"Falta de qualificação técnica para o mundo moderno.\"" },
-                    { letter: "B", text: "\"Idadismo: medo de que ela não aceite ordens de jovens ou seja lenta.\"" },
-                    { letter: "C", text: "\"Salário pretendido ser muito alto.\"" }
+                    {
+                        text: "Ignorar a sensação e confiar no acordo formal.",
+                        correct: false,
+                        feedback: "Intuições baseadas em experiência muitas vezes sinalizam problemas reais que merecem atenção."
+                    },
+                    {
+                        text: "Incluir cláusulas detalhadas de implementação, prazos, métricas e responsabilidades no acordo.",
+                        correct: true,
+                        feedback: "CORRETO! Um acordo é tão bom quanto sua implementação. Detalhar o 'como' previne mal-entendidos e garante execução sucessiva."
+                    },
+                    {
+                        text: "Pedir garantias financeiras extras para se proteger contra possível não cumprimento.",
+                        correct: false,
+                        feedback: "Garantias financeiras são úteis, mas não substituem um plano claro de implementação compartilhado."
+                    }
                 ],
-                correct: "B",
-                explanation: "O preconceito assume que a pessoa madura é rígida ou tecnologicamente incapaz, o que é uma mentira generalizada."
-            },
-            {
-                id: 21,
-                text: "Uma mulher de 66 anos quer abrir conta PJ e o gerente sugere o nome do filho:",
-                options: [
-                    { letter: "A", text: "\"Um conselho financeiro prudente.\"" },
-                    { letter: "B", text: "\"Idadismo financeiro que ataca a autonomia feminina e sênior.\"" },
-                    { letter: "C", text: "\"Uma gentileza para poupar a cliente de burocracias.\"" }
-                ],
-                correct: "B",
-                explanation: "É uma tentativa de retirar a titularidade da mulher sobre suas próprias conquistas."
-            },
-            {
-                id: 22,
-                text: "Quem sofre mais preconceito na maturidade?",
-                options: [
-                    { letter: "A", text: "\"O homem branco de classe média.\"" },
-                    { letter: "B", text: "\"A mulher negra e pobre (acúmulo de gênero, raça, classe e idade).\"" },
-                    { letter: "C", text: "\"Todos sofrem exatamente igual.\"" }
-                ],
-                correct: "B",
-                explanation: "A interseccionalidade prova que vulnerabilidades se somam. A maturidade não apaga o racismo nem o machismo; ela os aprofunda."
-            },
-            {
-                id: 23,
-                text: "\"É da idade mesmo\", diz o médico sem fazer exames em uma pessoa idosa pobre:",
-                options: [
-                    { letter: "A", text: "\"Um diagnóstico sincero baseado na estatística.\"" },
-                    { letter: "B", text: "\"Negligência médica baseada no idadismo estrutural.\"" },
-                    { letter: "C", text: "\"Uma forma de acalmar o paciente.\"" }
-                ],
-                correct: "B",
-                explanation: "Idade não é diagnóstico. Dor e mal-estar em pessoas idosas devem ser investigados com o mesmo rigor que em jovens."
-            },
-            {
-                id: 24,
-                text: "Uma pessoa idosa de 72 anos entra em uma loja de luxo e o vendedor pergunta por quem ela trabalha:",
-                options: [
-                    { letter: "A", text: "\"O vendedor está apenas sendo solícito.\"" },
-                    { letter: "B", text: "\"É um 'combo' de racismo, classismo e idadismo.\"" },
-                    { letter: "C", text: "\"Provavelmente a pessoa idosa parece perdida.\"" }
-                ],
-                correct: "B",
-                explanation: "Assume-se que a pessoa idosa (especialmente se for negra ou parecer pobre) não pode ser o sujeito do desejo de consumo."
-            },
-            {
-                id: 25,
-                text: "O relacionamento ideal entre jovens e pessoas maduras seria:",
-                options: [
-                    { letter: "A", text: "\"O jovem ensinar tecnologia e a pessoa idosa apenas ouvir.\"" },
-                    { letter: "B", text: "\"A pessoa idosa contar histórias e o jovem fingir que ouve.\"" },
-                    { letter: "C", text: "\"Uma troca mútua: o novo do jovem e o contexto da pessoa madura.\"" }
-                ],
-                correct: "C",
-                explanation: "Ambas as opções tratam a relação como unilateral. A intergeracionalidade real é uma via de mão dupla."
-            },
-            {
-                id: 26,
-                text: "Quando uma pessoa idosa conta uma superação e o jovem diz 'Lá vem o museu':",
-                options: [
-                    { letter: "A", text: "\"O jovem é apenas focado no futuro.\"" },
-                    { letter: "B", text: "\"O jovem despreza a memória como algo 'ultrapassado'.\"" },
-                    { letter: "C", text: "\"As histórias de pessoas idosas são sempre repetitivas.\"" }
-                ],
-                correct: "B",
-                explanation: "Desprezar a experiência é ignorar o alicerce do presente. Sem memória, não há evolução."
-            },
-            {
-                id: 27,
-                text: "Uma pessoa idosa quer aprender IA e os colegas jovens riem. A presença dela é:",
-                options: [
-                    { letter: "A", text: "\"Uma tentativa desesperada de não se sentir só.\"" },
-                    { letter: "B", text: "\"Um exemplo de lifelong learning e direito à atualização.\"" },
-                    { letter: "C", text: "\"Perda de tempo, pois o cérebro não processa mais isso.\"" }
-                ],
-                correct: "B",
-                explanation: "A neuroplasticidade continua. Rir da busca por conhecimento é uma das formas mais cruéis de idadismo acadêmico."
-            },
-            {
-                id: 28,
-                text: "A família viaja e avisa à avó: 'Você vai para cuidar das crianças à noite':",
-                options: [
-                    { letter: "A", text: "\"Assume-se que o tempo da pessoa idosa é 'sobra' e não tem valor próprio.\"" },
-                    { letter: "B", text: "\"É uma ajuda que toda avó gosta de dar.\"" },
-                    { letter: "C", text: "\"Uma forma de economizar com a babá.\"" }
-                ],
-                correct: "A",
-                explanation: "Ignora que ela pode ter seus próprios planos de viagem e lazer na mesma ocasião."
-            },
-            {
-                id: 29,
-                text: "O preconceito de ver pessoas idosas como 'sem agenda própria' resulta em:",
-                options: [
-                    { letter: "A", text: "\"Mais tempo de descanso para elas.\"" },
-                    { letter: "B", text: "\"Isolamento social e perda do sentido de vida (logoterapia).\"" },
-                    { letter: "C", text: "\"Uma vida mais simples e sem estresse.\"" }
-                ],
-                correct: "B",
-                explanation: "O ser humano precisa de propósito. Retirar a agenda da pessoa idosa é retirar seu lugar no mundo."
-            },
-            {
-                id: 30,
-                text: "Sobre a 'longelescência' (seu termo!), o que ela propõe?",
-                options: [
-                    { letter: "A", text: "\"Que a pessoa idosa deve agir como se tivesse 15 anos para ser aceita.\"" },
-                    { letter: "B", text: "\"Que a longevidade pode manter a curiosidade e o vigor da juventude.\"" },
-                    { letter: "C", text: "\"Que a maturidade é apenas uma adolescência tardia e sem responsabilidades.\"" }
-                ],
-                correct: "B",
-                explanation: "A A nega a sabedoria da idade. A C nega a maturidade. A longelescência é a síntese: o frescor da descoberta com o peso da experiência."
-            },
-            {
-                id: 31,
-                text: "Quando uma pessoa idosa diz que quer aprender uma nova língua, uma pessoa sem idadismo dirá?:",
-                options: [
-                    { letter: "A", text: "\"Que inspirador! Nunca é tarde para aprender.\"" },
-                    { letter: "B", text: "\"Na sua idade? Melhor descansar.\"" },
-                    { letter: "C", text: "\"Para que vai servir agora?\"" }
-                ],
-                correct: "A",
-                explanation: "As opções B e C desestimulam o aprendizado contínuo, ignorando que a capacidade de aprender permanece ao longo da vida."
-            },
-            {
-                id: 32,
-                text: "Uma pessoa idosa não pode participar de um projeto de visita aos clientes. Qual teu posicionamento?",
-                options: [
-                    { letter: "A", text: "\"É compreensível, visitas externas exigem muito esforço.\"" },
-                    { letter: "B", text: "\"Faz sentido, porque vai querer usar um banheiro a todo momento.\"" },
-                    { letter: "C", text: "\"Ela sofreu preconceito organizacional, disfarçado em falsas premissas. \"" }
-                ],
-                correct: "C",
-                explanation: "Pessoas idosas têm muito a contribuir. Rejeitá-la, pelos motivos da letra A e B, é puro preconceito."
-            },
-            {
-                id: 33,
-                text: "Um colega diz para um trabalhador de 60 anos: 'Já está na hora de aposentar, deixe a vaga para os mais jovens'. Isso é:",
-                options: [
-                    { letter: "A", text: "\"Um conselho amigável para o bem-estar da pessoa idosa.\"" },
-                    { letter: "B", text: "\"Discriminação por idade que viola o direito ao trabalho.\"" },
-                    { letter: "C", text: "\"Uma constatação realista sobre o mercado de trabalho.\"" }
-                ],
-                correct: "B",
-                explanation: "A idade não determina capacidade produtiva. Forçar aposentadoria é discriminação e viola o Estatuto da Pessoa Idosa."
-            },
-            {
-                id: 34,
-                text: "Em uma entrevista, o recrutador diz: 'As regras do processo são para outro perfil, pessoas mais jovens'. Esta atitude:",
-                options: [
-                    { letter: "A", text: "\"É uma filtragem honesta para adequação cultural.\"" },
-                    { letter: "B", text: "\"Representa discriminação estrutural nos processos seletivos.\"" },
-                    { letter: "C", text: "\"É necessária para manter a produtividade da empresa.\"" }
-                ],
-                correct: "B",
-                explanation: "Excluir candidatos por idade é ilegal e ignora que diversidade etária traz diferentes perspectivas e experiências valiosas."
-            },
-            {
-                id: 35,
-                text: "A frase 'pessoas idosas no trabalho são lentas e improdutivas' reflete:",
-                options: [
-                    { letter: "A", text: "\"Um estereótipo prejudicial sem base científica.\"" },
-                    { letter: "B", text: "\"Uma verdade estatística sobre desempenho laboral.\"" },
-                    { letter: "C", text: "\"A necessidade de funções adaptadas para pessoas maduras.\"" }
-                ],
-                correct: "A",
-                explanation: "Pesquisas mostram que trabalhadores mais velhos têm menor absenteísmo, mais experiência e maior comprometimento. A produtividade não diminui necessariamente com a idade."
-            },
-            {
-                id: 36,
-                text: "Quando uma pessoa idosa permanece ativa no mercado, muitos dizem: 'O que ela quer com essa vaga, tomando espaço dos jovens?'. Esta visão:",
-                options: [
-                    { letter: "A", text: "\"Promove a competição intergeracional injusta.\"" },
-                    { letter: "B", text: "\"Ignora que o mercado deve incluir todas as gerações.\"" },
-                    { letter: "C", text: "\"Ambas as alternativas anteriores estão corretas.\"" }
-                ],
-                correct: "C",
-                explanation: "Não existe 'quantidade limitada' de trabalho. A inclusão de pessoas maduras no mercado não prejudica jovens, mas sim enriquece as organizações com experiência e diversidade."
-            },
-            
-            // NOVAS QUESTÕES 37-41 (ATUALIZADAS)
-            {
-                id: 37,
-                text: "Um homem de 68 anos decide se assumir publicamente como gay e participar do movimento LGBTQIA+. Muitos dizem: 'Nessa idade? Já passou da hora, devia ficar quieto'. Isso revela:",
-                options: [
-                    { letter: "A", text: "\"Que a sexualidade tem prazo de validade e pessoas idosas não têm direito à autenticidade.\"" },
-                    { letter: "B", text: "\"Que o idadismo também afeta a comunidade LGBTQIA+, negando identidade sexual tardia.\"" },
-                    { letter: "C", text: "\"Um cuidado para proteger a pessoa idosa de possíveis preconceitos sociais.\"" }
-                ],
-                correct: "B",
-                explanation: "A A é preconceituosa ao limitar expressão sexual por idade. A C mascara controle como proteção. A pessoa idosa tem direito à autenticidade em qualquer idade."
-            },
-            {
-                id: 38,
-                text: "Uma pessoa idosa de 72 anos decide vender um imóvel herdado para abrir um pequeno negócio. Os filhos se revoltam: 'Esse imóvel é da família, não tem direito de vender!'. A atitude dos filhos é:",
-                options: [
-                    { letter: "A", text: "\"Legítima preocupação com o patrimônio familiar.\"" },
-                    { letter: "B", text: "\"Violência patrimonial e negação da autonomia financeira do pai.\"" },
-                    { letter: "C", text: "\"Uma tentativa de preservar a herança para as futuras gerações.\"" }
-                ],
-                correct: "B",
-                explanation: "A pessoa idosa lúcida tem pleno direito de dispor de seus bens. Tratar o patrimônio como 'da família' é negar sua autonomia e pode configurar crime."
-            },
-            {
-                id: 39,
-                text: "Um senhor de 75 anos volta a estudar (ensino médio) e sofre bullying dos colegas jovens: riem quando ele faz perguntas, chamam de 'vovô caduco'. Isso é:",
-                options: [
-                    { letter: "A", text: "\"Apenas brincadeira de jovens, sem maldade.\"" },
-                    { letter: "B", text: "\"Assédio moral educacional que pode levar ao abandono dos estudos.\"" },
-                    { letter: "C", text: "\"Natural, pois ele está fora do ambiente etário adequado.\"" }
-                ],
-                correct: "B",
-                explanation: "O direito à educação é para todas as idades. Ridicularizar a pessoa idosa estudante é uma forma cruel de exclusão educacional que viola direitos fundamentais."
-            },
-            {
-                id: 40,
-                text: "Pessoas idosas são alvo constante de bancos com produtos duvidosos (consórcios, seguros caríssimos, investimentos complexos) e golpes de amor virtual. A raiz do problema é:",
-                options: [
-                    { letter: "A", text: "\"Ingenuidade das pessoas idosas que não sabem se proteger.\"" },
-                    { letter: "B", text: "\"Solidão e falta de rede de apoio para orientação e aconselhamento.\"" },
-                    { letter: "C", text: "\"Falta de fiscalização governamental apenas.\"" }
-                ],
-                correct: "B",
-                explanation: "A vulnerabilidade não é ingenuidade, mas fruto do isolamento social. Pessoas idosas solitárias são presas fáceis para golpistas. A rede de apoio familiar e comunitária é essencial."
-            },
-            {
-                id: 41,
-                text: "Aplicativos como 'amigo virtual', 'jantar com estranhos' ou 'botão de pânico' que avisa 'estou vivo' revelam:",
-                options: [
-                    { letter: "A", text: "\"A criatividade tecnológica para lidar com problemas modernos.\"" },
-                    { letter: "B", text: "\"O quanto nossa sociedade está doente de solidão, especialmente para pessoas idosas.\"" },
-                    { letter: "C", text: "\"Que pessoas idosas não sabem mais fazer amigos da forma tradicional.\"" }
-                ],
-                correct: "B",
-                explanation: "Esses aplicativos são sintomas da 'epidemia de solidão' que atinge especialmente pessoas idosas. Revelam o fracasso das redes sociais reais e o abandono afetivo estrutural."
+                difficulty: "Média"
             }
         ];
 
-        // ESTADO DA APLICAÇÃO
-        const TOTAL_QUESTIONS = 41;
-        let userAnswers = new Array(TOTAL_QUESTIONS).fill(null);
-        let currentQuestionIndex = 0;
+        // Variáveis do jogo
+        let currentCaseIndex = 0;
         let score = 0;
-        let answeredCount = 0;
+        let userAnswers = new Array(negotiationCases.length).fill(null);
+        let selectedOption = null;
 
-        // ELEMENTOS DOM
-        const questionModal = document.getElementById('questionModal');
-        const resultsModal = document.getElementById('resultsModal');
-        const answeredCounter = document.getElementById('answered-counter');
-        const scoreCounter = document.getElementById('score-counter');
-        const startTestBtn = document.getElementById('start-test-btn');
-        const downloadQuestionsBtn = document.getElementById('download-questions-btn');
-        const viewResultsBtn = document.getElementById('view-results-btn');
-        const resultsWarning = document.getElementById('results-warning');
-        const feedbackSection = document.getElementById('feedback-section');
-
-        // INICIALIZAÇÃO
+        // Inicializar o jogo
         document.addEventListener('DOMContentLoaded', function() {
-            updateCounters();
-            startTestBtn.addEventListener('click', () => openQuestionModal(0));
-            downloadQuestionsBtn.addEventListener('click', downloadQuestions);
-            viewResultsBtn.addEventListener('click', showResults);
+            initializeGame();
+            loadCase(currentCaseIndex);
+            updateProgress();
             
-            // Mostrar seção de feedback depois de completar o teste
-            const checkCompletion = setInterval(() => {
-                if (answeredCount === TOTAL_QUESTIONS) {
-                    feedbackSection.scrollIntoView({ behavior: 'smooth' });
-                    clearInterval(checkCompletion);
-                }
-            }, 1000);
+            // Event listeners para navegação
+            document.getElementById('prev-btn').addEventListener('click', goToPrevCase);
+            document.getElementById('next-btn').addEventListener('click', goToNextCase);
+            document.getElementById('submit-btn').addEventListener('click', submitAnswer);
+            document.getElementById('restart-btn').addEventListener('click', restartGame);
         });
 
-        // BAIXAR QUESTÕES EM PDF
-        function downloadQuestions() {
-            let content = "QUESTÕES DO AUTODIAGNÓSTICO SOBRE IDADISMO - 41 QUESTÕES\n";
-            content += "Direitos Reservados: Ricardo de Faria Barros - Psicólogo CRP 01/7844\n";
-            content += "Especialista em Longevidade e Combate ao Idadismo\n";
-            content += "Baseado em relatos reais coletados em 30 anos de prática clínica\n";
-            content += "NOTA: Utilizamos intencionalmente a expressão 'pessoa idosa' por ser mais inclusiva e respeitosa.\n\n";
-            content += "=================================================================\n\n";
+        // Inicializar lista de casos
+        function initializeGame() {
+            const casesList = document.querySelector('.cases-list');
             
-            questions.forEach((question, index) => {
-                content += `QUESTÃO ${index + 1}:\n`;
-                content += `${question.text}\n\n`;
-                content += `OPÇÕES:\n`;
-                question.options.forEach(option => {
-                    content += `${option.letter}) ${option.text}\n`;
-                });
-                content += `\nRESPOSTA CORRETA: ${question.correct}\n`;
-                content += `EXPLICAÇÃO: ${question.explanation}\n\n`;
-                content += "=================================================================\n\n";
-            });
-            
-            content += "\n\nPARA APRENDER MAIS:\n";
-            content += "- YouTube: @positivaatitude\n";
-            content += "- TikTok: @ricardodefariabarros\n";
-            content += "- Site: https://www.animodh.com.br/\n";
-            content += "- Portal: https://www.plenalongevidade.com.br/\n";
-            content += "- Email: ricardo@animodh.com.br\n\n";
-            content += "© 2026 - Combate ao Idadismo - Ricardo de Faria Barros";
-            
-            const blob = new Blob([content], { type: 'text/plain' });
-            const url = window.URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = '41_Questoes_Autodiagnostico_Idadismo_Ricardo_Barros.txt';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            window.URL.revokeObjectURL(url);
-            
-            alert('Questões baixadas com sucesso! Um arquivo .txt foi gerado com todas as 41 questões e respostas corretas.');
-        }
-
-        // ABRIR MODAL DE QUESTÃO
-        function openQuestionModal(index) {
-            currentQuestionIndex = index;
-            updateQuestionModal();
-            questionModal.style.display = 'block';
-            document.body.style.overflow = 'hidden';
-        }
-
-        // ATUALIZAR MODAL
-        function updateQuestionModal() {
-            const question = questions[currentQuestionIndex];
-            const userAnswer = userAnswers[currentQuestionIndex];
-            const progressPercent = ((currentQuestionIndex + 1) / TOTAL_QUESTIONS) * 100;
-            
-            const modalContent = `
-                <div class="modal-header">
-                    <span>Questão ${currentQuestionIndex + 1} de ${TOTAL_QUESTIONS}</span>
-                    <span class="close-modal">&times;</span>
-                </div>
+            negotiationCases.forEach((caseItem, index) => {
+                const caseElement = document.createElement('div');
+                caseElement.className = 'case-item';
+                if (index === 0) caseElement.classList.add('active');
                 
-                <!-- BARRA DE PROGRESSO -->
-                <div class="progress-container">
-                    <div class="progress-bar">
-                        <div class="progress-fill" style="width: ${progressPercent}%"></div>
-                    </div>
-                    <div class="progress-text">${currentQuestionIndex + 1}/${TOTAL_QUESTIONS} - ${Math.round(progressPercent)}% completo</div>
-                </div>
+                caseElement.innerHTML = `
+                    <div class="case-number">Caso ${index + 1}</div>
+                    <div class="case-title">${caseItem.scenario.substring(0, 60)}...</div>
+                `;
                 
-                <!-- BOX DA PERGUNTA -->
-                <div class="question-box">
-                    <div class="question-number">QUESTÃO ${currentQuestionIndex + 1}</div>
-                    <div class="question-text">${question.text}</div>
-                </div>
-                
-                <!-- OPÇÕES -->
-                <div class="options-container">
-                    ${question.options.map(option => `
-                        <div class="option ${userAnswer === option.letter ? 'selected' : ''} 
-                                        ${userAnswer && option.letter === question.correct ? 'correct' : ''} 
-                                        ${userAnswer && userAnswer !== question.correct && option.letter === userAnswer ? 'incorrect' : ''}" 
-                             data-letter="${option.letter}">
-                            <div class="option-letter ${option.letter}">${option.letter}</div>
-                            <div class="option-text">${option.text}</div>
-                        </div>
-                    `).join('')}
-                </div>
-                
-                <!-- EXPLICAÇÃO (SE RESPONDIDA) -->
-                ${userAnswer ? `
-                    <div class="explanation">
-                        <div class="explanation-title">📝 Por que as outras estão erradas?</div>
-                        <div>${question.explanation}</div>
-                    </div>
-                ` : ''}
-                
-                <!-- BOTÕES DE NAVEGAÇÃO -->
-                <div class="nav-buttons">
-                    <button class="nav-btn prev" ${currentQuestionIndex === 0 ? 'disabled style="display: none;"' : ''}>
-                        <i class="fas fa-arrow-left"></i> ANTERIOR
-                    </button>
-                    <button class="nav-btn next" ${!userAnswer ? 'disabled' : ''}>
-                        ${currentQuestionIndex < questions.length - 1 ? 'PRÓXIMA <i class="fas fa-arrow-right"></i>' : 'FINALIZAR TESTE'}
-                    </button>
-                </div>
-            `;
-            
-            questionModal.querySelector('.modal-content').innerHTML = modalContent;
-            
-            // ADICIONAR EVENTOS
-            const closeBtn = questionModal.querySelector('.close-modal');
-            const prevBtn = questionModal.querySelector('.nav-btn.prev');
-            const nextBtn = questionModal.querySelector('.nav-btn.next');
-            const options = questionModal.querySelectorAll('.option:not(.selected)');
-            
-            closeBtn.addEventListener('click', () => {
-                questionModal.style.display = 'none';
-                document.body.style.overflow = 'auto';
-            });
-            
-            if (prevBtn) {
-                prevBtn.addEventListener('click', () => {
-                    if (currentQuestionIndex > 0) {
-                        currentQuestionIndex--;
-                        updateQuestionModal();
+                caseElement.addEventListener('click', () => {
+                    if (userAnswers[index] === null || index === currentCaseIndex) {
+                        loadCase(index);
                     }
                 });
-            }
+                
+                casesList.appendChild(caseElement);
+            });
+        }
+
+        // Carregar um caso específico
+        function loadCase(index) {
+            currentCaseIndex = index;
+            const caseData = negotiationCases[index];
             
-            if (nextBtn) {
-                nextBtn.addEventListener('click', () => {
-                    if (currentQuestionIndex < questions.length - 1) {
-                        currentQuestionIndex++;
-                        updateQuestionModal();
-                    } else {
-                        questionModal.style.display = 'none';
-                        document.body.style.overflow = 'auto';
-                        // Rolar até a seção de feedback após completar
-                        setTimeout(() => {
-                            feedbackSection.scrollIntoView({ behavior: 'smooth' });
-                        }, 500);
-                    }
-                });
-            }
+            // Atualizar interface do caso
+            document.getElementById('case-number').textContent = index + 1;
+            document.getElementById('difficulty').textContent = caseData.difficulty;
+            document.getElementById('scenario-text').textContent = caseData.scenario;
+            document.getElementById('question-text').textContent = caseData.question;
             
-            options.forEach(option => {
-                if (!option.classList.contains('selected')) {
-                    option.addEventListener('click', () => {
-                        const selectedLetter = option.getAttribute('data-letter');
-                        selectOption(selectedLetter);
-                    });
+            // Atualizar lista de casos ativa
+            document.querySelectorAll('.case-item').forEach((item, i) => {
+                item.classList.remove('active');
+                if (userAnswers[i] !== null) {
+                    item.classList.add('completed');
+                } else {
+                    item.classList.remove('completed');
                 }
             });
-        }
-
-        // SELECIONAR OPÇÃO
-        function selectOption(selectedLetter) {
-            const question = questions[currentQuestionIndex];
-            userAnswers[currentQuestionIndex] = selectedLetter;
+            document.querySelectorAll('.case-item')[index].classList.add('active');
             
-            if (selectedLetter === question.correct) {
-                // Calcula pontuação baseada em 10 pontos totais para 41 questões
-                score = Math.round((userAnswers.filter((answer, idx) => 
-                    answer !== null && answer === questions[idx].correct
-                ).length / TOTAL_QUESTIONS) * 10 * 10) / 10;
+            // Criar opções
+            const optionsContainer = document.getElementById('options-container');
+            optionsContainer.innerHTML = '';
+            
+            caseData.options.forEach((option, optionIndex) => {
+                const optionElement = document.createElement('div');
+                optionElement.className = 'option';
+                if (userAnswers[index] === optionIndex) {
+                    optionElement.classList.add('selected');
+                    selectedOption = optionIndex;
+                }
+                
+                optionElement.innerHTML = `
+                    <div class="option-indicator">${String.fromCharCode(65 + optionIndex)}</div>
+                    <div class="option-text">${option.text}</div>
+                `;
+                
+                optionElement.addEventListener('click', () => {
+                    if (userAnswers[index] === null) {
+                        selectOption(optionIndex);
+                    }
+                });
+                
+                optionsContainer.appendChild(optionElement);
+            });
+            
+            // Mostrar/ocultar feedback baseado em resposta anterior
+            const feedback = document.getElementById('feedback');
+            if (userAnswers[index] !== null) {
+                const userAnswer = userAnswers[index];
+                const isCorrect = caseData.options[userAnswer].correct;
+                
+                feedback.className = isCorrect ? 'feedback correct' : 'feedback incorrect';
+                feedback.querySelector('.feedback-title i').className = isCorrect ? 'fas fa-check-circle' : 'fas fa-times-circle';
+                feedback.querySelector('.feedback-title span').textContent = isCorrect ? 'Resposta Correta!' : 'Resposta Incorreta';
+                feedback.querySelector('#feedback-text').textContent = caseData.options[userAnswer].feedback;
+                feedback.style.display = 'block';
+                
+                // Marcar opções como corretas/incorretas
+                document.querySelectorAll('.option').forEach((opt, optIndex) => {
+                    if (caseData.options[optIndex].correct) {
+                        opt.classList.add('correct');
+                    } else if (optIndex === userAnswer && !caseData.options[optIndex].correct) {
+                        opt.classList.add('incorrect');
+                    }
+                });
+                
+                document.getElementById('submit-btn').style.display = 'none';
+                document.getElementById('next-btn').style.display = 'flex';
+            } else {
+                feedback.style.display = 'none';
+                document.getElementById('submit-btn').style.display = 'flex';
+                document.getElementById('next-btn').style.display = 'none';
             }
             
-            answeredCount = userAnswers.filter(answer => answer !== null).length;
-            updateCounters();
-            updateQuestionModal();
+            // Atualizar estado dos botões de navegação
+            document.getElementById('prev-btn').disabled = index === 0;
+            document.getElementById('next-btn').disabled = index === negotiationCases.length - 1 && userAnswers[index] === null;
+            
+            if (index === negotiationCases.length - 1 && userAnswers[index] !== null) {
+                document.getElementById('next-btn').innerHTML = 'Ver Resultados <i class="fas fa-trophy"></i>';
+                document.getElementById('next-btn').onclick = showResults;
+            } else {
+                document.getElementById('next-btn').innerHTML = 'Próximo <i class="fas fa-arrow-right"></i>';
+                document.getElementById('next-btn').onclick = goToNextCase;
+            }
         }
 
-        // ATUALIZAR CONTADORES
-        function updateCounters() {
-            answeredCounter.textContent = answeredCount;
-            scoreCounter.textContent = score.toFixed(1);
+        // Selecionar uma opção
+        function selectOption(optionIndex) {
+            // Remover seleção anterior
+            document.querySelectorAll('.option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            
+            // Adicionar nova seleção
+            document.querySelectorAll('.option')[optionIndex].classList.add('selected');
+            selectedOption = optionIndex;
         }
 
-        // MOSTRAR RESULTADOS
-        function showResults() {
-            if (answeredCount < TOTAL_QUESTIONS) {
-                resultsWarning.style.display = 'block';
-                setTimeout(() => {
-                    resultsWarning.style.display = 'none';
-                }, 3000);
+        // Submeter resposta
+        function submitAnswer() {
+            if (selectedOption === null) {
+                alert('Por favor, selecione uma opção antes de enviar.');
                 return;
             }
             
-            const notaFinal = score;
-            const acertos = userAnswers.filter((answer, idx) => 
-                answer !== null && answer === questions[idx].correct
-            ).length;
+            const caseData = negotiationCases[currentCaseIndex];
+            userAnswers[currentCaseIndex] = selectedOption;
             
-            let level, message, color;
+            // Verificar se a resposta está correta
+            if (caseData.options[selectedOption].correct) {
+                score++;
+                updateScore();
+            }
             
-            if (notaFinal >= 9.0) {
-                level = "Um Jedi da Longelescência! 🏆";
-                message = "Parabéns! Você demonstra uma consciência excepcional sobre os desafios do idadismo e uma visão profundamente respeitosa da longevidade. Compartilhe esse conhecimento!";
-                color = "linear-gradient(90deg, var(--amarelo), var(--laranja))";
-            } else if (notaFinal >= 7.0) {
-                level = "Consciente e Informado 💡";
-                message = "Você tem boa consciência sobre o idadismo, mas ainda pode aprofundar alguns conceitos. Continue estudando e conversando sobre longevidade!";
-                color = "linear-gradient(90deg, var(--azul), var(--verde))";
-            } else if (notaFinal >= 5.0) {
-                level = "Em Desenvolvimento 🌱";
-                message = "Você está no caminho certo, mas ainda internalizou alguns estereótipos sobre o envelhecimento. Reflita sobre as questões que errou!";
-                color = "linear-gradient(90deg, var(--verde), var(--azul))";
+            // Marcar caso como completado na lista
+            document.querySelectorAll('.case-item')[currentCaseIndex].classList.add('completed');
+            
+            // Mostrar feedback
+            loadCase(currentCaseIndex);
+            
+            // Verificar se todos os casos foram respondidos
+            if (userAnswers.every(answer => answer !== null)) {
+                setTimeout(showResults, 500);
+            }
+        }
+
+        // Atualizar pontuação
+        function updateScore() {
+            const scoreElement = document.querySelector('.score-value');
+            const grade = (score / 2).toFixed(1);
+            
+            scoreElement.textContent = score;
+            document.querySelector('.progress-text span:last-child').textContent = `Nota: ${grade}`;
+            
+            // Atualizar barra de progresso
+            const percentage = (score / negotiationCases.length) * 100;
+            document.querySelector('.progress-fill').style.width = `${percentage}%`;
+            document.querySelector('.progress-text span:first-child').textContent = `${Math.round(percentage)}%`;
+            
+            // Atualizar medalhas
+            updateMedals();
+        }
+
+        // Atualizar medalhas na barra lateral
+        function updateMedals() {
+            const goldMedal = document.querySelector('.medal.gold');
+            const silverMedal = document.querySelector('.medal.silver');
+            const bronzeMedal = document.querySelector('.medal.bronze');
+            
+            // Remover todas as medalhas ativas
+            goldMedal.classList.remove('active');
+            silverMedal.classList.remove('active');
+            bronzeMedal.classList.remove('active');
+            
+            // Ativar medalhas conforme a pontuação
+            if (score >= 18) {
+                goldMedal.classList.add('active');
+                silverMedal.classList.add('active');
+                bronzeMedal.classList.add('active');
+            } else if (score >= 14) {
+                silverMedal.classList.add('active');
+                bronzeMedal.classList.add('active');
+            } else if (score >= 10) {
+                bronzeMedal.classList.add('active');
+            }
+        }
+
+        // Atualizar progresso geral
+        function updateProgress() {
+            const answeredCount = userAnswers.filter(answer => answer !== null).length;
+            const progressPercentage = (answeredCount / negotiationCases.length) * 100;
+            
+            document.querySelector('.progress-fill').style.width = `${progressPercentage}%`;
+            document.querySelector('.progress-text span:first-child').textContent = `${Math.round(progressPercentage)}%`;
+            
+            const grade = (score / 2).toFixed(1);
+            document.querySelector('.progress-text span:last-child').textContent = `Nota: ${grade}`;
+        }
+
+        // Navegar para o caso anterior
+        function goToPrevCase() {
+            if (currentCaseIndex > 0) {
+                loadCase(currentCaseIndex - 1);
+            }
+        }
+
+        // Navegar para o próximo caso
+        function goToNextCase() {
+            if (currentCaseIndex < negotiationCases.length - 1) {
+                loadCase(currentCaseIndex + 1);
+            }
+        }
+
+        // Mostrar tela de resultados
+        function showResults() {
+            document.querySelector('.main-content').style.display = 'none';
+            document.getElementById('results-screen').style.display = 'block';
+            
+            // Calcular nota final
+            const finalGrade = (score / 2).toFixed(1);
+            
+            // Atualizar resultados
+            document.getElementById('final-score').textContent = score;
+            document.getElementById('final-grade').textContent = `Nota: ${finalGrade}`;
+            
+            // Atualizar medalhas grandes
+            const goldLarge = document.getElementById('gold-medal-large');
+            const silverLarge = document.getElementById('silver-medal-large');
+            const bronzeLarge = document.getElementById('bronze-medal-large');
+            
+            // Remover todas as medalhas ativas
+            goldLarge.classList.remove('active');
+            silverLarge.classList.remove('active');
+            bronzeLarge.classList.remove('active');
+            
+            // Ativar medalhas conforme a pontuação
+            if (score >= 18) {
+                goldLarge.classList.add('active');
+                silverLarge.classList.add('active');
+                bronzeLarge.classList.add('active');
+                document.getElementById('results-message').textContent = "EXCELENTE! Você dominou os princípios da negociação colaborativa. Sua habilidade de criar valor e manter relações é excepcional. Parabéns, Negociador Mestre!";
+            } else if (score >= 14) {
+                silverLarge.classList.add('active');
+                bronzeLarge.classList.add('active');
+                document.getElementById('results-message').textContent = "MUITO BOM! Você demonstra sólida compreensão das técnicas de negociação. Com mais prática, logo alcançará a maestria. Continue desenvolvendo sua capacidade de criar soluções ganha-ganha!";
+            } else if (score >= 10) {
+                bronzeLarge.classList.add('active');
+                document.getElementById('results-message').textContent = "BOM TRABALHO! Você tem boa base em negociação. Identifique os pontos onde pode melhorar e pratique as técnicas de criação de valor. Cada negociação é uma nova oportunidade de aprendizado!";
             } else {
-                level = "Iniciante na Jornada 🚀";
-                message = "Este teste revelou que há muitos conceitos sobre envelhecimento e idadismo para explorar. É uma ótima oportunidade para começar!";
-                color = "linear-gradient(90deg, var(--rosa), var(--roxo))";
+                document.getElementById('results-message').textContent = "CONTINUE PRATICANDO! A negociação é uma habilidade que se desenvolve com estudo e experiência. Revise os casos e foque na preparação, escuta ativa e criação de valor mútuo. Você está no caminho certo!";
             }
+        }
+
+        // Reiniciar o jogo
+        function restartGame() {
+            // Resetar variáveis
+            currentCaseIndex = 0;
+            score = 0;
+            userAnswers = new Array(negotiationCases.length).fill(null);
+            selectedOption = null;
             
-            const resultsHTML = `
-                <div style="padding: 40px; text-align: center;">
-                    <div style="font-size: 2.5rem; color: var(--azul-escuro); margin-bottom: 20px; font-weight: 700;">SEU RESULTADO COMPLETO</div>
-                    
-                    <div style="display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; margin: 30px 0;">
-                        <div style="text-align: center;">
-                            <div style="font-size: 4.5rem; font-weight: 900; color: var(--rosa); margin: 10px 0; background: linear-gradient(45deg, var(--rosa), var(--laranja)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">${notaFinal.toFixed(1)}</div>
-                            <div style="font-weight: 700; color: var(--texto-medio);">NOTA (0-10)</div>
-                        </div>
-                        <div style="text-align: center;">
-                            <div style="font-size: 4.5rem; font-weight: 900; color: var(--azul); margin: 10px 0; background: linear-gradient(45deg, var(--azul), var(--roxo)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">${acertos}</div>
-                            <div style="font-weight: 700; color: var(--texto-medio);">ACERTOS</div>
-                        </div>
-                        <div style="text-align: center;">
-                            <div style="font-size: 4.5rem; font-weight: 900; color: var(--verde); margin: 10px 0; background: linear-gradient(45deg, var(--verde), #4CAF50); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">${answeredCount}</div>
-                            <div style="font-weight: 700; color: var(--texto-medio);">RESPONDIDAS</div>
-                        </div>
-                    </div>
-                    
-                    <div style="display: inline-block; padding: 15px 35px; border-radius: 50px; font-weight: 700; font-size: 1.5rem; margin-bottom: 30px; background: ${color}; color: white; box-shadow: 0 10px 25px rgba(0,0,0,0.2);">
-                        ${level}
-                    </div>
-                    
-                    <div style="font-size: 1.3rem; margin-bottom: 40px; color: #555; line-height: 1.6; max-width: 600px; margin-left: auto; margin-right: auto; font-weight: 600;">
-                        ${message}
-                    </div>
-                    
-                    <div style="background: rgba(126, 214, 223, 0.1); padding: 30px; border-radius: 20px; margin: 30px 0; text-align: center; border: 3px solid var(--azul);">
-                        <h4 style="color: var(--azul-escuro); margin-bottom: 20px; font-size: 1.4rem;">📊 SEU DESEMPENHO DETALHADO</h4>
-                        <div style="display: inline-block; text-align: left; font-size: 1.1rem; font-weight: 600;">
-                            <div style="margin-bottom: 10px;"><strong>Acertos:</strong> ${acertos} de ${TOTAL_QUESTIONS}</div>
-                            <div style="margin-bottom: 10px;"><strong>Porcentagem:</strong> ${Math.round((acertos/TOTAL_QUESTIONS)*100)}%</div>
-                            <div style="margin-bottom: 10px;"><strong>Nível de Consciência:</strong> ${getNivelConsciencia(notaFinal)}</div>
-                            <div><strong>Próximo Passo:</strong> ${getProximoPasso(notaFinal)}</div>
-                        </div>
-                    </div>
-                    
-                    <!-- SEÇÃO DE FEEDBACK NO RESULTADO -->
-                    <div style="background: linear-gradient(135deg, rgba(255, 193, 7, 0.1), rgba(255, 87, 34, 0.1)); padding: 30px; border-radius: 20px; margin: 30px 0; text-align: center; border: 3px solid var(--laranja);">
-                        <h4 style="color: var(--azul-escuro); margin-bottom: 20px; font-size: 1.4rem;"><i class="fas fa-comments"></i> FALE DIRETAMENTE COMIGO</h4>
-                        <p style="color: var(--texto-medio); margin-bottom: 20px; font-size: 1.1rem;">
-                            <strong>Sua opinião é essencial para melhorar este trabalho!</strong>
-                        </p>
-                        <p style="color: var(--texto-medio); margin-bottom: 25px; font-size: 1rem;">
-                            Clique abaixo para se comunicar <strong>diretamente comigo</strong>. Você pode sugerir temas, avaliar a experiência ou compartilhar relatos.
-                        </p>
-                        <a href="https://forms.gle/1mQMewjBpJbccQYp7" target="_blank" style="display: inline-block; padding: 18px 40px; background: linear-gradient(90deg, var(--laranja), var(--rosa)); color: white; text-decoration: none; border-radius: 50px; font-weight: 700; font-size: 1.2rem; box-shadow: 0 10px 25px rgba(255, 87, 34, 0.4); transition: all 0.3s ease;">
-                            <i class="fas fa-paper-plane"></i> FALAR DIRETAMENTE COM RICARDO
-                        </a>
-                        <p style="color: var(--texto-claro); font-size: 0.9rem; margin-top: 15px;">
-                            <i class="fas fa-envelope-open-text"></i> Eu leio pessoalmente cada mensagem
-                        </p>
-                    </div>
-                    
-                    <!-- CHAMADA PARA PESQUISA MUNDO LONGEVO -->
-                    <div style="background: linear-gradient(135deg, rgba(76, 175, 80, 0.1), rgba(33, 150, 243, 0.1)); padding: 30px; border-radius: 20px; margin: 30px 0; text-align: center; border: 3px solid var(--verde);">
-                        <h4 style="color: var(--azul-escuro); margin-bottom: 20px; font-size: 1.4rem;">🔬 PARTICIPE DA PESQUISA MUNDO LONGEVO</h4>
-                        <p style="color: var(--texto-medio); margin-bottom: 20px; font-size: 1.1rem;">
-                            <strong>Você tem 50 anos ou mais?</strong> Sua experiência é valiosa para a ciência da longevidade!
-                        </p>
-                        <p style="color: var(--texto-medio); margin-bottom: 25px; font-size: 1rem;">
-                            <strong>Como brinde:</strong> Todos os participantes recebem meu livro <strong>"Aposentei-me e Agora?"</strong> em formato digital!
-                        </p>
-                        <a href="https://forms.gle/3i9bUdmc5AicdXHUA" target="_blank" style="display: inline-block; padding: 18px 40px; background: linear-gradient(90deg, var(--verde), var(--azul)); color: white; text-decoration: none; border-radius: 50px; font-weight: 700; font-size: 1.2rem; box-shadow: 0 10px 25px rgba(76, 175, 80, 0.4); transition: all 0.3s ease;">
-                            <i class="fas fa-clipboard-check"></i> PARTICIPAR DA PESQUISA
-                        </a>
-                        <p style="color: var(--texto-claro); font-size: 0.9rem; margin-top: 15px;">
-                            <i class="fas fa-lock"></i> Dados protegidos • Pesquisa anônima • Ética aprovada
-                        </p>
-                    </div>
-                    
-                    <!-- BOTÃO PARA BAIXAR QUESTÕES -->
-                    <div style="margin: 30px 0;">
-                        <button onclick="downloadQuestions()" style="padding: 18px 40px; background: linear-gradient(90deg, var(--roxo), var(--azul)); color: white; border: none; border-radius: 50px; font-weight: 700; font-size: 1.2rem; cursor: pointer; margin: 10px; box-shadow: 0 10px 25px rgba(156, 39, 176, 0.4); transition: all 0.3s ease;">
-                            <i class="fas fa-download"></i> BAIXAR AS 41 QUESTÕES E RESPOSTAS
-                        </button>
-                        <p style="color: var(--texto-medio); margin-top: 10px; font-size: 0.9rem;">
-                            Baixe todas as 41 questões com explicações para estudar e compartilhar
-                        </p>
-                    </div>
-                    
-                    <!-- REDES SOCIAIS NO RESULTADO -->
-                    <div style="background: rgba(255, 193, 7, 0.1); padding: 25px; border-radius: 15px; margin: 20px 0;">
-                        <h4 style="color: var(--azul-escuro); margin-bottom: 15px;">📱 SIGA NAS REDES SOCIAIS</h4>
-                        <div style="display: flex; justify-content: center; gap: 15px; flex-wrap: wrap;">
-                            <a href="https://www.youtube.com/@positivaatitude" target="_blank" style="padding: 12px 25px; background: #FF0000; color: white; border-radius: 50px; text-decoration: none;">
-                                <i class="fab fa-youtube"></i> YouTube
-                            </a>
-                            <a href="https://www.tiktok.com/@ricardodefariabarros?is_from_webapp=1&sender_device=pc" target="_blank" style="padding: 12px 25px; background: #000000; color: white; border-radius: 50px; text-decoration: none;">
-                                <i class="fab fa-tiktok"></i> TikTok
-                            </a>
-                            <a href="https://www.animodh.com.br/" target="_blank" style="padding: 12px 25px; background: var(--azul); color: white; border-radius: 50px; text-decoration: none;">
-                                <i class="fas fa-globe"></i> Site
-                            </a>
-                        </div>
-                    </div>
-                    
-                    <div style="margin-top: 20px;">
-                        <p style="color: var(--texto-medio); font-size: 0.9rem;">
-                            Teste desenvolvido por <strong>Ricardo de Faria Barros</strong> - Psicólogo CRP 01/7844<br>
-                            Especialista em Longevidade e Combate ao Idadismo • Baseado em relatos reais
-                        </p>
-                    </div>
-                    
-                    <button onclick="closeResultsModal()" style="padding: 18px 45px; background: linear-gradient(90deg, var(--azul-escuro), #1565C0); color: white; border: none; border-radius: 50px; font-weight: 700; font-size: 1.2rem; cursor: pointer; margin-top: 20px; box-shadow: 0 10px 25px rgba(13, 71, 161, 0.3); transition: all 0.3s ease;">
-                        FECHAR
-                    </button>
-                </div>
-            `;
+            // Resetar interface
+            document.querySelector('.main-content').style.display = 'flex';
+            document.getElementById('results-screen').style.display = 'none';
             
-            resultsModal.querySelector('.modal-content').innerHTML = resultsHTML;
-            resultsModal.style.display = 'block';
-            document.body.style.overflow = 'hidden';
-            
-            // Depois de fechar o modal, rolar até a seção de feedback
-            const closeBtn = resultsModal.querySelector('button[onclick="closeResultsModal()"]');
-            closeBtn.addEventListener('click', () => {
-                setTimeout(() => {
-                    feedbackSection.scrollIntoView({ behavior: 'smooth' });
-                }, 500);
+            // Resetar lista de casos
+            document.querySelectorAll('.case-item').forEach(item => {
+                item.classList.remove('completed');
             });
+            
+            // Atualizar pontuação e progresso
+            updateScore();
+            updateProgress();
+            
+            // Carregar primeiro caso
+            loadCase(0);
         }
-
-        // FUNÇÕES AUXILIARES
-        function getNivelConsciencia(nota) {
-            if (nota >= 9) return "Excelente";
-            if (nota >= 7) return "Bom";
-            if (nota >= 5) return "Em desenvolvimento";
-            return "Iniciante";
-        }
-
-        function getProximoPasso(nota) {
-            if (nota >= 9) return "Compartilhe seu conhecimento e seja multiplicador!";
-            if (nota >= 7) return "Continue estudando e converse com pessoas idosas";
-            if (nota >= 5) return "Reflita sobre os erros e baixe as questões para estudar";
-            return "Converse com pessoas idosas e baixe as questões para aprender";
-        }
-
-        // FECHAR MODAL DE RESULTADOS
-        function closeResultsModal() {
-            resultsModal.style.display = 'none';
-            document.body.style.overflow = 'auto';
-        }
-
-        // FECHAR MODAL CLICANDO FORA
-        window.addEventListener('click', (e) => {
-            if (e.target === questionModal) {
-                questionModal.style.display = 'none';
-                document.body.style.overflow = 'auto';
-            }
-            if (e.target === resultsModal) {
-                closeResultsModal();
-            }
-        });
     </script>
 </body>
 </html>
